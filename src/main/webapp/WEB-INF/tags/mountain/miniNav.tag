@@ -1,7 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<ul class="nav nav-tabs d-flex justify-content-around">
+<ul id="mini_nav" class="nav nav-tabs d-flex justify-content-around">
   <li class="nav-item">
     <a id="link1" class="nav-link active">산 정보</a>
   </li>

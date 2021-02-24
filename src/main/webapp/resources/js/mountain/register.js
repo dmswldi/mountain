@@ -17,15 +17,19 @@ $(function(){
 		});
 	}
 
-//	$('#upload').on('drop', function(e){
-//        if(e.originalEvent.dataTransfer && e.originalEvent.dataTransfer.files.length) {
-//            e.preventDefault();
-//            e.stopPropagation();
-            /*UPLOAD FILES HERE*/
-//            upload(e.originalEvent.dataTransfer.files);
-//        }
-//    });
-
-    
-    
+	$('#onlyNum').hide();
+	$('#height').focusout(function() {
+		var height = $('#height').val();
+		var reg = /^[0-9]+$/;
+		
+		if( height.match(reg) ){
+			$('#onlyNum').hide();
+		} else {
+			$('#onlyNum').show();
+		}
+	});
+	
+	
+		
+	
 });

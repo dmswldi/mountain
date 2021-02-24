@@ -45,7 +45,7 @@
 	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
-			<img src="<spring:url value='/resources/img/main/mountain_main2.jpg' />" class="d-block center-block" width="auto" height="auto" alt="메인배너">
+			<img src="<spring:url value='/resources/img/main/mountain_main2.jpg' />" class="img-fluid d-block center-block" width="auto" height="auto" alt="메인배너">
 	    </div>
 	  </div>
 	</div>

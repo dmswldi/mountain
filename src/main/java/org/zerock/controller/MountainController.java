@@ -84,6 +84,9 @@ public class MountainController {
 			}
 			
 			rttr.addFlashAttribute("result", "regSuccess");
+			
+		} else {// not manager
+			session.setAttribute("available", "notPermitted");
 		}
 		
 		return "redirect:/list";
@@ -133,7 +136,8 @@ public class MountainController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} 
 		}
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		return new ResponseEntity<>("notPermitted", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@PostMapping(value = "/check",
@@ -156,8 +160,8 @@ public class MountainController {
 				return new ResponseEntity<>(HttpStatus.OK);
 			} 
 		}
-
-		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		
+		return new ResponseEntity<>("notPermitted", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	@GetMapping("/list")

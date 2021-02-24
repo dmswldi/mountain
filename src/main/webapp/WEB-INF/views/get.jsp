@@ -26,9 +26,11 @@ var amount = '${cri.amount}';
 var keyword = '${cri.keyword}';
 
 var isManager = ('${authUser.manager}' == 1);
+
+var staticPath = '${staticPath}';
 </script>
 <script src="${root }/resources/js/mountain/get.js"></script>
-<link rel="shortcut icon" href="#">
+<%-- <script src="${root }/resources/js/restaurant/LikeDislike.js"></script> --%>
 <title>산산산</title>
 </head>
 <body>
@@ -60,7 +62,7 @@ var isManager = ('${authUser.manager}' == 1);
 			                 	
 					<div class="form-group mt-3">
 						<label for="height">해발고도: </label>
-						<input type="number" class="form-control" name="height" id="height" value="${mountain.height }" required readonly>
+						<input type="number" class="form-control text-right p-0 m-0" name="height" id="height" value="${mountain.height }" required readonly>
 						<span>m</span>
 					</div>
 		
@@ -107,6 +109,10 @@ var isManager = ('${authUser.manager}' == 1);
 					</div>
 					
 				</div>	
+				
+				<%-- for other tab : 맛집, 축제, 명소 등 --%>
+				<n:nav_restaurant></n:nav_restaurant>
+				
 			</form>
 			
 			<hr>
@@ -115,17 +121,12 @@ var isManager = ('${authUser.manager}' == 1);
     		  <c:param name="amount">${cri.amount }</c:param>
     		  <c:param name="keyword">${cri.keyword }</c:param>
     	    </c:url>
-			<a href="${listUrl }" class="btn btn-success">목록</a>
+			<a href="${listUrl }" id="listBtn" class="btn btn-success">목록</a>
 			<button id="removeBtn" class="btn btn-danger float-right ml-1">삭제</button>
 			<button id="modifyBtn" class="btn btn-primary float-right">수정</button>
 			<button id="submitBtn" class="btn btn-success float-right ml-1">등록</button>
 			<button id="cancelBtn" class="btn btn-secondary float-right">취소</button>
 		</div>
-		
-		<hr>
-		
-		<%-- 맛집, 축제, 명소 등 --%>
-		
 		
 	</div>
 </div>

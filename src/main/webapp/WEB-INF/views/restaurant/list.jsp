@@ -168,8 +168,8 @@
 				<i class="fas fa-exclamation-triangle"></i>검색한 결과가 없습니다.
 				</span></div></c:if>
 				<c:forEach items="${list }" var="res" varStatus="status">
-
-
+<c:if test="${status.count%2 == 1 }"><div class="row"></c:if>
+				<div class="col-sm-6">
 					<div class="card mb-3">
 								<img src="${staticPath }/${res.filename}" class="card-img-top img-fluid cardimg mt-2"
 									style="width: 250px;">
@@ -218,6 +218,9 @@
 									</c:if>
 								</div>
 					</div>
+					</div>
+					<c:if test="${status.count%2 == 0 }"></div></c:if>
+					
 				</c:forEach>
 			</div>
 			<div class="container-sm mt-3">

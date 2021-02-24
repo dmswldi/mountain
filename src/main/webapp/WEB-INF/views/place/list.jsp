@@ -139,10 +139,14 @@
 </head>
 <body>
 	<u:topNav />
-	<div class="container-sm">
+<!-- 	<div class="container-sm"> -->
 
-		<div class="row">
-			<div class="col-12 col-sm-6 offset-sm-3">
+<!-- 		<div class="row"> -->
+<!-- 			<div class="col-12 col-sm-6 offset-sm-3"> -->
+<div class="container-fluid my-5">
+	<div class="row">
+		<div class="col-12 col-md-8 offset-md-2 table-responsive"> 
+		
 				<form action="${root }/place/list" id="searchForm"
 					class="form-inline my-2 my-lg-0 d-flex bd-highlight mb-3">
 					<div class="mr-auto p-2 bd-highlight">

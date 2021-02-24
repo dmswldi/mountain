@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-table td {
-	padding: 20px;
-}
-
 #search input {
 	width: 45%;
 	display: inline-block;
@@ -36,6 +32,6 @@ table td {
 	color: #BCFF66;
 }
 
-tr {
-	width: 33%;
+.card {
+	cursor: pointer;
 }

@@ -23,6 +23,7 @@ var src = '${root }/resources/img/mountain/';
 
 var isManager = ('${authUser.manager}' == 1);
 var available = '${available}';
+var root = '${root}';
 </script>
 <script src="${root }/resources/js/mountain/list.js"></script>
 <title>산산산</title>
@@ -31,8 +32,7 @@ var available = '${available}';
 <m:topNav />
 
 <div class="container-fluid my-5">
-	<div class="row">
-<!-- 		<div class="col-12 col-sm-8 offset-sm-2"> -->
+	<div class="row d-block">
 		<div class="col-12 col-md-8 offset-md-2 table-responsive">  
       		<h3 class="text-center">산산산들</h3>
       		<br>
@@ -42,89 +42,89 @@ var available = '${available}';
 		    	<a href="${root }/register" id="newMountain" class="btn btn-outline-success ml-5">산 등록</a>
       		</form>
 
-	      	<table>
-	      		<tbody>
-	      		  <c:forEach var="mountain" items="${list}" varStatus="status">
-	       			<c:if test="${status.count % 3 == 1 }"> 
-						<tr>
-		          	</c:if>
-
-		        	<td style="width:33%; height:100%; border: 1px solid red; padding: 1.25rem;"> <%-- css test --%>
-						<div class="card">
-						
-						 <%--
-		                 	<img src="${root }/resources/img/mountain/${mountain.mname}.jpg" class="card-img-top" 
-		                 		alt="${mountain.mname }" onerror="this.src = '${root }/resources/img/mountain/default.png';">
-						  --%>
-						 	<c:choose>
-							    <c:when test="${empty mountain.filename }">
-									<c:set var="src" value="${root }/resources/img/mountain/default.png" />
-							    </c:when>
-							    <c:otherwise>
-							    	<c:set var="src" value="${staticPath }/${mountain.filename}" />
-							    </c:otherwise>
-							</c:choose>
-		                 	<img src="${src }" class="card-img-top" alt="${mountain.filename }">	
-		                 		
-		                 	<div class="card-body">
-		                 		<h4 class="card-title">${mountain.mname }</h4>
-		                 		<p class="card-text">${mountain.mloc }에 있는 해발고도 ${mountain.height }m의 산</p>
-		                 		<c:url var="getUrl" value="/get">
-					    		  <c:param name="no">${mountain.no}</c:param>
-					    		  <c:param name="curPage">${cri.curPage }</c:param>
-					    		  <c:param name="amount">${cri.amount }</c:param>
-					    		  <c:param name="keyword">${cri.keyword }</c:param>
-					    	    </c:url>
-		                		<a href="${getUrl }" class="btn btn-success">Go Into Detail</a>
-		               		</div>
-	              		</div>
-		        	</td>
-			      
-			        <c:if test="${status.count % 3 == 0 }">
-						</tr>
-			        </c:if>
-			      </c:forEach>
-				</tbody>
-			</table>
+	      	
+      		<c:forEach var="mountain" items="${list}" varStatus="status">
+       			<c:if test="${status.count % 3 == 1 }"> 
+					<div class="row">
+	          	</c:if>
 			
-			<!-- 페이지네이션 처리 -->
-			<nav aria-label="Page navigation example">
-			  <ul class="pagination justify-content-center">
-			    <c:if test="${not pages.prev }"><c:set var="prevDisabled" value="disabled" /></c:if>
-			    <li class="page-item ${prevDisabled }">
-			      <c:url var="prevUrl" value="/list">
-		    		<c:param name="curPage">${pages.startPage-1 }</c:param>
-		    		<c:param name="amount">${cri.amount }</c:param>
-		    		<c:param name="keyword">${cri.keyword }</c:param>
-		    	  </c:url>
-			      <a class="page-link" href="${prevUrl }">Previous</a>
-			    </li>
-			    
-			    <c:forEach var="page" begin="${pages.startPage }" end="${pages.endPage }">
-			    	<c:url var="pageUrl" value="/list">
-			    		<c:param name="curPage">${page }</c:param>
-			    		<c:param name="amount">${cri.amount }</c:param>
-			    		<c:param name="keyword">${cri.keyword }</c:param>
-			    	</c:url>
-			    	<c:if test="${page eq cri.curPage }"><c:set var="active" value="active" /></c:if>
-				    <li class="page-item ${active }"><a class="page-link" href="${pageUrl }">${page }</a></li>			    
-				    <c:remove var="active"/>
-			    </c:forEach>
-					    
-				<c:if test="${not pages.next }"><c:set var="nextDisabled" value="disabled" /></c:if>
-			    <li class="page-item ${nextDisabled }">
-			      <c:url var="nextUrl" value="/list">
-		    		<c:param name="curPage">${pages.endPage+1 }</c:param>
-		    		<c:param name="amount">${cri.amount }</c:param>
-		    		<c:param name="keyword">${cri.keyword }</c:param>
-		    	  </c:url>
-			      <a class="page-link" href="${nextUrl }">Next</a>
-			    </li>
-			  </ul>
-			</nav>
-		
+	        	<div class="col-xs-12 col-sm-6 col-lg-4" style="border: 1px solid red; padding: 1.25rem;"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
+					<div class="card h-100">
+					
+					 <%--
+	                 	<img src="${root }/resources/img/mountain/${mountain.mname}.jpg" class="card-img-top" 
+	                 		alt="${mountain.mname }" onerror="this.src = '${root }/resources/img/mountain/default.png';">
+					  --%>
+					 	<c:choose>
+						    <c:when test="${empty mountain.filename }">
+								<c:set var="src" value="${root }/resources/img/mountain/default.png" />
+						    </c:when>
+						    <c:otherwise>
+						    	<c:set var="src" value="${staticPath }/${mountain.filename}" />
+						    </c:otherwise>
+						</c:choose>
+	                 	<img src="${src }" class="card-img-top" alt="${mountain.filename }">	
+	                 		
+	                 	<div class="card-body">
+	                 		<h4 class="card-title">${mountain.mname }</h4>
+	                 		<p class="card-text">${mountain.mloc }에 있는 해발고도 ${mountain.height }m의 산</p>
+	                 		<c:url var="getUrl" value="/get">
+				    		  <c:param name="no">${mountain.no}</c:param>
+				    		  <c:param name="curPage">${cri.curPage }</c:param>
+				    		  <c:param name="amount">${cri.amount }</c:param>
+				    		  <c:param name="keyword">${cri.keyword }</c:param>
+				    	    </c:url>
+	                		<a href="${getUrl }" class="btn btn-success">Go Into Detail</a>
+	               		</div>
+	             	</div>
+	        	</div>
+		      
+		        <c:if test="${status.count % 3 == 0 }">
+					</div>
+		        </c:if>
+		    </c:forEach>
 		</div>
 	</div>
+	
+	
+	<!-- 페이지네이션 처리 -->
+	<div class="row justify-content-center">
+		<nav aria-label="Page navigation example">
+		  <ul class="pagination justify-content-center">
+		    <c:if test="${not pages.prev }"><c:set var="prevDisabled" value="disabled" /></c:if> <%-- disabled -> hidden --%>
+		    <li class="page-item ${prevDisabled }">
+		      <c:url var="prevUrl" value="/list">
+	    		<c:param name="curPage">${pages.startPage-1 }</c:param>
+	    		<c:param name="amount">${cri.amount }</c:param>
+	    		<c:param name="keyword">${cri.keyword }</c:param>
+	    	  </c:url>
+		      <a class="page-link" href="${prevUrl }">Previous</a>
+		    </li>
+		    
+		    <c:forEach var="page" begin="${pages.startPage }" end="${pages.endPage }">
+		    	<c:url var="pageUrl" value="/list">
+		    		<c:param name="curPage">${page }</c:param>
+		    		<c:param name="amount">${cri.amount }</c:param>
+		    		<c:param name="keyword">${cri.keyword }</c:param>
+		    	</c:url>
+		    	<c:if test="${page eq cri.curPage }"><c:set var="active" value="active" /></c:if>
+			    <li class="page-item ${active }"><a class="page-link" href="${pageUrl }">${page }</a></li>			    
+			    <c:remove var="active"/>
+		    </c:forEach>
+				    
+			<c:if test="${not pages.next }"><c:set var="nextDisabled" value="disabled" /></c:if>
+		    <li class="page-item ${nextDisabled }">
+		      <c:url var="nextUrl" value="/list">
+	    		<c:param name="curPage">${pages.endPage+1 }</c:param>
+	    		<c:param name="amount">${cri.amount }</c:param>
+	    		<c:param name="keyword">${cri.keyword }</c:param>
+	    	  </c:url>
+		      <a class="page-link" href="${nextUrl }">Next</a>
+		    </li>
+		  </ul>
+		</nav>
+	</div>
+	
 </div>
 <%-- 삭제 성공 결과 삭제 --%>
 <c:remove var="result"/>

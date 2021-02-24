@@ -45,6 +45,7 @@ var result = '${result}';
 					<label for="height">해발고도</label>
 					<input type="text" class="form-control" name="height" id="height" value="${mountain.height }" required 
 						placeholder="산의 높이를 입력하세요." pattern="[0-9]+">
+					<small id="onlyNum" class="text-danger">숫자만 입력 가능합니다.</small>
 				</div>
 	
 				<div class="form-group">

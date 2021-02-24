@@ -2,9 +2,10 @@ package org.zerock.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,12 @@ public class PlaceController {
 		model.addAttribute("list", list);
 		model.addAttribute("page", dto);
 
+	}
+	
+	@GetMapping("/list2")
+	public ResponseEntity<List<PlaceVO>> list(Pcriteria cri){
+		List<PlaceVO> list = service.getList(cri);
+		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
 
 	@PostMapping("/register")

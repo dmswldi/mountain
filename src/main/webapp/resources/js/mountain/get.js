@@ -59,7 +59,18 @@ $(function(){
 	        processData : false,
 			cache: false
 		}).done(function(){
-		  location.replace(root + '/get?no=' + no + '&curPage=' + curPage + '&amount=' + amount + '&keyword=' + keyword);		  
+			location.replace(root + '/get?no=' + no + '&curPage=' + curPage + '&amount=' + amount + '&keyword=' + keyword);		  
+		}).fail(function(){
+			swal({
+			  	title: "Not Allowed",
+			  	text: "관리자만 이용 가능합니다.",
+			  	icon: "warning",
+			  	button: "close"
+			}).then((isConfirm) => {
+	 			if (isConfirm) {
+					location.replace(root + '/get?no=' + no + '&curPage=' + curPage + '&amount=' + amount + '&keyword=' + keyword);
+				}
+			});
 		});
 	});
 
@@ -87,6 +98,17 @@ $(function(){
 			  //console.log($($.parseXML(cri)));
 			  //console.log('curPage: ' + $($.parseXML(cri)).find('curPage'));
 			  location.replace(root + '/list?curPage=' + curPage + '&amount=' + amount + '&keyword=' + keyword);
+		  	}).fail(function(){
+				swal({
+				  	title: "Not Allowed",
+				  	text: "관리자만 이용 가능합니다.",
+				  	icon: "warning",
+				  	button: "close"
+				}).then((isConfirm) => {
+		 			if (isConfirm) {
+						location.replace(root + '/get?no=' + no + '&curPage=' + curPage + '&amount=' + amount + '&keyword=' + keyword);
+					}
+				});
 		  	});
 		  }
 	   });
@@ -115,6 +137,11 @@ $(function(){
 		$('#statusForm').show();
 		
 		$('#upload').show();
+		
+		$('#mname').css('border', '1px solid #ced4da');
+		$('#height').css('border', '1px solid #ced4da');
+		$('#description').css('border', '1px solid #ced4da');
+		$('#mloc').css('border', '1px solid #ced4da');
 	});
 	
 	/* 취소 버튼 클릭 */
@@ -133,29 +160,128 @@ $(function(){
 	
 	
 	/* navigation */
+	
+	/* .nav_body에 #nav_~ 넣기 */
+	
 	$('.nav #link1').click(function(){
 		$('.nav_body').hide();
+		$('#modifyBtn').show();
+		$('#removeBtn').show();
 		$('#nav_mountain').show();
 	});
 	
 	$('.nav #link2').click(function(){
 		$('.nav_body').hide();
+		$('#listBtn').siblings('.btn').hide();
 		$('#nav_restaurant').show();
+		
+		/* ajax:restaurant */
+		$.ajax(root + '/restaurant/list2', {
+			dataType: 'json',
+			data: {type: "M", keyword: curMname} /* 알아서 쿼리스트링 붙음 */
+		}).done(function(data){
+			//console.log(data);
+			$('#nav_restaurant').empty();
+			
+			$(data).each(function(index, element) {// index 0 ~
+				//$('#nav_restaurant').append('index: '+ index + ', element: ' + element.rname + '<br>');
+				
+				// 좋아요 안 눌림
+		
+
+				$('#nav_restaurant').append(
+					'<div class="col-sm-6">'
+					+	'<div class="card mb-3">'
+					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid">'
+					+		'<div class="card-body">'
+					+			'<h5 class="card-title"><b>' + element.rname + '</b></h5>'
+					+			'<p class="card-text">' + element.mname + '</p>'
+					+			'<p class="card-text">' + element.rloc + '</p>'
+					+			'<p class="card-text">'
+					+				'대표메뉴 : ' + element.menu + '<br>'
+					+				'<small class="text-muted">' + element.description
+					+				'<br>전화 : ' +  element.contact + '</small><br>'
+					+			'</p>'
+					+			'<div class="d-flex justify-content-end align-items-center mb-1 likeDislike">'
+					+				'<img data-resNo="' + element.no + '" id="like-img' + index+1 + '" src="' + root + '/resources/img/like/like_empty2.png" width="25px" height="25px">'
+					+				'<span>&nbsp;' +  element.likecnt + '&nbsp;</span>'
+					+				'<img data-resNo="' + element.no + '" id="dislike-img' + index+1 + '" src="' + root + '/resources/img/like/dislike_empty.png" width="25px" height="25px">'
+					+				'<span>&nbsp;' + element.dislikecnt + '</span>'
+					+			'</div>'
+					+		'</div>'
+					+	'</div>'
+					+'</div>'
+				);
+				
+			});
+			
+			if(data.length == 0) {
+				$('#nav_restaurant').append("등록된 맛집이 없습니다.");
+				$('#nav_restaurant').wrapInner('<div class="row mt-3 ml-5" />');
+			} else {
+				// 닫는 태그 자동 추가 방지
+				$('#nav_restaurant').wrapInner('<div class="row mt-5" />');
+			}
+			
+		});
 	});
 	
 	$('.nav #link3').click(function(){
 		$('.nav_body').hide();
+		$('#listBtn').siblings('.btn').hide();
 		$('#nav_festival').show();
+		
+		/* ajax:festival */
 	});
 	
 	$('.nav #link4').click(function(){
 		$('.nav_body').hide();
+		$('#listBtn').siblings('.btn').hide();
 		$('#nav_place').show();
+		
+		/* ajax:place */
+		$.ajax(root + '/place/list2', {
+			dataType: 'json',
+			data: {type: "M", keyword: curMname}
+		}).done(function(data){
+			//console.log(data);
+			$('#nav_place').empty();
+			
+			$.each(function(index, element){
+				$('#nav_place').append(
+					'<div class="col-sm-6">'
+					+	'<div class="card mb-3">'
+					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid">'
+					+		'<div class="card-body">'
+					+			'<h5 class="card-title"><b>' + element.pname + '</b></h5>'
+					+			'<p class="card-text">' + element.mname + '</p>'
+					+			'<p class="card-text">' + element.ploc + '</p>'
+					+			'<p class="card-text">'
+					+				'<small class="text-muted">' + element.description + '</small>'
+					+			'</p>'
+					+		'</div>'
+					+	'</div>'
+					+'</div>'
+				);
+			});
+		
+			if(data.length == 0) {
+				$('#nav_place').append("등록된 명소가 없습니다.");
+				$('#nav_place').wrapInner('<div class="row mt-3 ml-5" />');
+			} else {
+				// 닫는 태그 자동 추가 방지
+				$('#nav_place').wrapInner('<div class="row mt-5" />');
+			}
+		
+		});
 	});
 	
 	$('.nav #link5').click(function(){
 		$('.nav_body').hide();
+		$('#listBtn').siblings('.btn').hide();
 		$('#nav_map').show();
+		
+		/* ajax:map api */
 	});
 	
 	

@@ -2,9 +2,10 @@ package org.zerock.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ import org.zerock.domain.restaurant.RAddressVO;
 import org.zerock.domain.restaurant.Rcriteria;
 import org.zerock.domain.restaurant.RestaurantVO;
 import org.zerock.domain.restaurant.RpageDTO;
-import org.zerock.service.restaurant.RFileUpService;
+import org.zerock.service.file.FileUpService;
 import org.zerock.service.restaurant.RestaurantService;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class RestaurantController {
 	private RestaurantService service;
-	private RFileUpService fileUpSvc;
+	private FileUpService fileUpSvc;
 
 	@GetMapping("/list")
 	public void list(Model model, @ModelAttribute("cri") Rcriteria cri) {
@@ -44,6 +45,16 @@ public class RestaurantController {
 		model.addAttribute("list", list);
 		model.addAttribute("page", dto);
 
+	}
+	
+	@GetMapping(value = "/list2")
+	public ResponseEntity<List<RestaurantVO>> list(Rcriteria cri){
+		List<RestaurantVO> list = service.getList(cri);
+		
+		//int total = service.getTotal(cri);
+		//RpageDTO dto = new RpageDTO(cri, total);
+		
+		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
 
 	@PostMapping("/register")

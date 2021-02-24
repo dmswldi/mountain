@@ -24,9 +24,15 @@
 
 #height {
 	display: inline-block;
-	width: 20%;
+	width: 15%;
 }
 
 .fileDrop {
 	 border: 1px dashed green;
+}
+
+
+/* miniNav.tag */
+#mini_nav a:hover {
+	cursor: pointer;
 }

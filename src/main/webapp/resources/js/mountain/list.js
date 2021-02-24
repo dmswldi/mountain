@@ -38,7 +38,11 @@ $(function(){
 	}
 	
 	
-/*	$('img').error(function(){
-	}).attr('src', src + '/default.png'); */
+	$('.card').click(function(){
+		location.href = $(this).find('a.btn').attr('href');
+	});
+	
+	
+	
 	
 })
