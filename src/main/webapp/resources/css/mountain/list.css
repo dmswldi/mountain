@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.card {
+/* 	border: none;	 */
+}
+
 .card img {
 	height: 300px;
     overflow: hidden;

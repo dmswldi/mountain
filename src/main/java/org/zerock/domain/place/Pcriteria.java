@@ -14,7 +14,7 @@ public class Pcriteria {
 	private String keyword;
 
 	public Pcriteria() {
-		this(1, 5);
+		this(1, 4);
 	}
 
 	public Pcriteria(int pageNo, int amount) {

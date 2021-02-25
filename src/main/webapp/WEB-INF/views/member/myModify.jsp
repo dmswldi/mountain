@@ -17,118 +17,8 @@
   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> <!-- 주소 api -->
-<%-- <script type="text/javascript" src="${root }/resources/js/member/myModify.js"></script> --%>
+<script type="text/javascript" src="${root }/resources/js/member/myModify.js"></script>
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
-
-<script>
-//왜 스크립트 주소를 사용할 수 없지???
-//=>학원에선 되넹???
-$(document).ready(function() {
-		
-		// ##패스워드 패턴 확인 멘트 - hide
-		$("#pwPattern").hide();
-		
-		// ##닉네임 중복 확인 멘트 - hide
-		$('#nicknameOk').hide();
-		$('#nicknameDup').hide();
-		$('#nicknameNull').hide();	
-		
-		// ##닉네임 중복 검사 버튼
-		$("#nicknameDupCheck").click(function(e) {
-			e.preventDefault();
-			var inputNickname = $('#inputNickname').val();
-			
-			$.ajax({
-				type: "get",
-				url: "/mountain/member/nicknameDupCheck",
-				data: {inputNickname:inputNickname}
-			}).done(function(data) {
-				console.log("닉네임 중복 검사");
-				if(data != null) {
-					if(data == '0' ) {
-						console.log("사용할 수 있음");
-						$('#nicknameDup').hide();
-						$('#nicknameNull').hide();
-						alert("닉네임을 사용할 수 있습니다.");
-						$("#checkedNn").val('y');
-						$('#nicknameOk').show();
-					} else if(data == '-1') {
-						console.log("중복된 닉네임");
-						$('#nicknameOk').hide();
-						$('#nicknameNull').hide();
-						alert("중복된 닉네임입니다.");
-						$('#nicknameDup').show();
-					} else if(data == '-2') {
-						console.log("닉네임 null");
-						$('#nicknameOk').hide();
-						$('#nicknameDup').hide();
-						$('#nicknameNull').show(); //inputId가 빈 스트링일때 아이디를 적어주세요 멘트 어떻게 하냐!!!
-					}
-				} 
-			}).fail(function() {
-	
-			});
-		});
-		
-		// ##(닉네임 수정 후) 중복 검사를 해주세요.
-		function nnKeyUp(){
-			$("#nicknameDupCheck").removeAttr("disabled"); // 버튼 비활성화 해제
-			$("#checkedNn").val('');
-			$("#modify").click(function(e) {
-				e.preventDefault();
-				if($("#checkedNn").val() == ''){
-					alert("닉네임 중복 확인을 해주세요.");
-					return false;
-				} else {
-				$("#modifyForm1").submit();
-				}
-			});
-		}
-		$("#inputNickname").keyup(nnKeyUp);
-		
-		// ##주소 값을 합쳐서 name="loc"로 보내기
-        function setLocInput() {
-        	var loc = $("#sample3_postcode").val() + "@" + $("#sample3_address").val() + "@" +
-        	$("#sample3_detailAddress").val() + "@" + $("#sample3_extraAddress").val();
-        	$("#loc-input").val(loc);
-        }
-  
-        $("#sample3_postcode").change(setLocInput);
-        $("#sample3_address").change(setLocInput);
-        $("#sample3_detailAddress").keyup(setLocInput);
-        $("#sample3_extraAddress").change(setLocInput);
-       
-        
-    	// ##이메일 주소 선택
-        $('#select').change(function() {
-            if ($('#select').val() == 'directly') {
-                $('#emailSelect').attr("disabled", false);
-                $('#emailSelect').val("");
-                $('#emailSelect').focus();
-            } else {
-                $('#emailSelect').val($('#select').val());
-            }
-        });
-        
-        // ##이메일 값을 합쳐서 name="email"으로 보내기
-        function setEmailInput() {
-        	var email = $("#emailFront").val() + "@" + $("#emailSelect").val();  
-        	$("#email-input").val(email);
-        }
-        
-         $("#select").change(setEmailInput);
-        $("#emailFront").keyup(setEmailInput);
-        $("#emailSelect").keyup(setEmailInput);
-        
-        // ##비밀번호 값을 수정하면 pattern 멘트
-        function showPwPattern() {
-        	$("#pwPattern").show();
-        }
-        $("#staticPw").keyup(showPwPattern);
-                
-    });
-    
-</script>
 
 <title>산산산</title>
 </head>
@@ -174,15 +64,10 @@ $(document).ready(function() {
 				<div class="form-group row">
 					<label for="pwConfirm" class="col-sm-2 col-form-label">비밀번호 확인</label>
 					<div class="col-sm-10">
-						<input type="password" name="pwConfirm" class="form-control" id="pwConfirm"  value="${sessionScope.authUser.password }">
+						<input type="password" name="pwConfirm" class="form-control" id="pwConfirm" required>
 						<c:if test="${errors.pwNotMatch }" >
 							<small class="form-text" style="color: tomato">
 								비밀번호가 일치하지 않습니다.
-							</small>
-						</c:if>
-						<c:if test="${errors.memberPwConfirm }">
-							<small class="form-text" style="color: tomato">
-								비밀번호 확인을 입력해주세요.
 							</small>
 						</c:if>
 					</div>
@@ -194,7 +79,7 @@ $(document).ready(function() {
 						<div class="input-group">
 							<input type="text" name="nickname" class="form-control" id="inputNickname" value="${sessionScope.authUser.nickname }" required>
 							<span class="input-group-btn">
-								<button type="button" class="btn btn-primary" id="nicknameDupCheck" disabled>닉네임 중복 확인</button>
+								<button type="button" class="btn btn-success" id="nicknameDupCheck" disabled>닉네임 중복 확인</button>
 							</span>
 						</div>
 						
@@ -219,8 +104,8 @@ $(document).ready(function() {
 					<div class="col-sm-10" id="staticEmail">
 						<input type="text" id="emailFront" value="${emailDTO.emailFront }" class="form-control d-inline" style="width:30%" placeholder="이메일 입력" required > 
 						<span>@</span>
-						<input id="emailSelect" value="${emailDTO.emailSelect }" class="form-control d-inline" style="width:30%" placeholder="이메일을 선택하세요." required> 
-						<select id="select">
+						<input id="textEmail" value="${emailDTO.emailSelect }" class="form-control d-inline" style="width:30%" placeholder="이메일 선택" required> 
+						<select id="email-select1">
 							<option value="disabled" id="selected">E-Mail 선택</option>
 							<option value="naver.com" id="naver.com">naver.com</option>
 							<option value="hanmail.net" id="hanmail.net">hanmail.net</option>
@@ -228,6 +113,9 @@ $(document).ready(function() {
 							<option value="nate.com" id="nate.com">nate.com</option>
 							<option value="directly" id="textEmail">직접 입력하기</option>
 						</select>
+						<small class="form-text" style="color: gray" id="emailPattern">
+							이메일 형식에 알맞게 입력해주세요. (예 : kim@mounteam.com)
+						</small>
 						<input type="hidden" name="email" id="email-input" value="${sessionScope.authUser.email }"/>
 					</div>
 				</div>
@@ -235,15 +123,20 @@ $(document).ready(function() {
 				<div class="form-group row">
 					<label for="loc-input" class="col-sm-2 col-form-label">주소</label>
 					<div class="col-sm-10">
-						<input type="hidden" class="form-control" id="loc-input" name="loc" value="${authUser.loc }">
+						<input type="text" class="form-control" id="loc-input" name="loc" value="${authUser.loc }" >
 						<!-- //주소 api input 태그	 -->	 
-						<input type="text" id="sample3_postcode" placeholder="우편번호" value="${locDiv.postcode }">
+						<input type="text" id="sample3_postcode" placeholder="우편번호" value="${locDiv.postcode }" >
 						<input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" id="sample3_address" placeholder="주소" value="${locDiv.address }"><br>
+						<input type="text" id="sample3_address" placeholder="주소" value="${locDiv.address }" ><br>
 						<input type="text" id="sample3_detailAddress" placeholder="상세주소" value="${locDiv.detailAddress }">
 						<input type="text" id="sample3_extraAddress" placeholder="참고항목" value="${locDiv.extraAddress }">
-						<c:if test="${errors.memberLoc }">
+<%-- 						<c:if test="${errors.memberLoc }">
 							<small class="form-text" style="color: tomato">
+								주소를 입력해주세요.
+							</small>
+						</c:if> --%>
+						<c:if test="${errors.memberLoc2 }">
+							<small class="form-text" style="color: tomato" id="locNullError">
 								주소를 입력해주세요.
 							</small>
 						</c:if>
@@ -253,7 +146,7 @@ $(document).ready(function() {
 						</div>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" id="modify" >수정</button>
+				<button type="submit" class="btn btn-success" id="modify" >수정</button>
 			</form>
 		</div>
 	</div>

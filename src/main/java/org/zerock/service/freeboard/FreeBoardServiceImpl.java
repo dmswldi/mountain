@@ -23,12 +23,15 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 	}
 	 
 	
-	@Override public List<FreeBoardVO> getList() { return mapper.getList(); }
-	
 
 	@Override
 	public List<FreeBoardVO> getList(FCriteria cri) { //paging처리
 		return mapper.getListWithPaging(cri);
+	}
+	
+	@Override
+	public int getTotal(FCriteria cri) {
+		return mapper.getTotalCount(cri);
 	}
 	
 	@Override
@@ -48,11 +51,7 @@ public class FreeBoardServiceImpl implements FreeBoardService {
 
 
 
-	
-	@Override
-	public int getTotal(FCriteria cri) {
-		return mapper.getTotalCount(cri);
-	}
+
 }
 
 

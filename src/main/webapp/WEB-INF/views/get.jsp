@@ -26,6 +26,7 @@ var curPage = '${cri.curPage}';
 var amount = '${cri.amount}';
 var keyword = '${cri.keyword}';
 
+var userno = '${authUser.no}';
 var isManager = ('${authUser.manager}' == 1);
 
 var staticPath = '${staticPath}';
@@ -144,10 +145,13 @@ var staticPath = '${staticPath}';
     		  <c:param name="keyword">${cri.keyword }</c:param>
     	    </c:url>
 			<a href="${listUrl }" id="listBtn" class="btn btn-success">목록</a>
-			<button id="removeBtn" class="btn btn-danger float-right ml-1">삭제</button>
-			<button id="modifyBtn" class="btn btn-primary float-right">수정</button>
-			<button id="submitBtn" class="btn btn-success float-right ml-1">등록</button>
-			<button id="cancelBtn" class="btn btn-secondary float-right">취소</button>
+			
+			<c:if test="${authUser.manager == 1 }">
+				<button id="removeBtn" class="btn btn-danger float-right ml-1">삭제</button>
+				<button id="modifyBtn" class="btn btn-primary float-right">수정</button>
+				<button id="submitBtn" class="btn btn-success float-right ml-1">등록</button>
+				<button id="cancelBtn" class="btn btn-secondary float-right">취소</button>
+			</c:if>
 		</div>
 		
 	</div>

@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="u" tagdir="/WEB-INF/tags/admin"%>
+<%@ taglib prefix="u" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="cu" tagdir="/WEB-INF/tags/admin"%>
 
 <!DOCTYPE html>
 <html>
@@ -32,10 +33,10 @@ text-align: right;
 </style>
 </head>
 <body>
-	<u:adminNav/>
-<div class="container-sm">
+	<cu:adminNav/>
+<div class="container-fluid my-5">
    <div class="row">
-      <div class="col-12 col-sm-6 offset-sm-3">
+      <div class="col-12 col-md-8 offset-md-2 table-responsive"> 
 
 	<section>
  		<div class="mt-2" id="container_box"> 

@@ -39,7 +39,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 
 	@Override
 	public List<RestaurantVO> getList(Rcriteria cri) {
-		return mapper.getListPaging(cri);
+//		return mapper.getListPaging(cri);
+		return mapper.getListPaging2(cri);
 	}
 
 	@Override

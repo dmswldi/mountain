@@ -12,7 +12,7 @@ SELECT no FROM mountain WHERE mname LIKE '%' || #{mname} || '%'
 		<foreach item="type" collection="typeArr" separator="OR">
 			<choose>
 				<when test="type == 'M'.toString()">
-					mountain_no = (SELECT no FROM mountain WHERE mname LIKE '%' || #{keyword} || '%' OR mloc LIKE '%' || #{keyword} || '%')
+					mountain_no in (SELECT no FROM mountain WHERE mname LIKE '%' || #{keyword} || '%' OR mloc LIKE '%' || #{keyword} || '%')
 				</when>
 				<when test="type == 'N'.toString()">
 					pname LIKE '%' || #{keyword} || '%'

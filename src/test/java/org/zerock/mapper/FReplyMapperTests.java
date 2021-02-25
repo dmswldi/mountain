@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.zerock.domain.freeboard.FReplyVO;
+import org.zerock.domain.freply.FReplyVO;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -78,9 +78,8 @@ public class FReplyMapperTests {
 		assertEquals("up수정된 댓글", vo.getReply());
 	}
 	@Test
-	public void testList() {
-		List<FReplyVO> list = mapper.getListWithPaging(null, 2L);
-		assertNotEquals(0, list.size());
+	public void testGetList() {
+		log.info(mapper.getList(5L));
 	}
 
 //	@Test // 책 383쪽

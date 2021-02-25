@@ -1,9 +1,6 @@
 package org.zerock.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.festival.Fcriteria;
 import org.zerock.domain.festival.FestivalVO;
 import org.zerock.domain.festival.FpageDTO;
-import org.zerock.domain.mountain.MnameVO;
+import org.zerock.domain.mountain.MCriteria;
+import org.zerock.domain.mountain.MountainVO;
 import org.zerock.service.festival.FestivalService;
-import org.zerock.service.festival.fFileUpService;
+import org.zerock.service.file.FileUpService;
 import org.zerock.service.mountain.MountainService;
 
 import lombok.AllArgsConstructor;
@@ -35,19 +33,22 @@ public class FestivalController {
 	private FestivalService service;
 	// mname, no 가져올려고 사용
 	private MountainService mountainService;
-	private fFileUpService fileUpSvc;
+	private FileUpService fileUpSvc;
 	
-	@RequestMapping("/list2")
+	
+	/* MOUNTAIN.get.jsp에서 ajax 사용 */
+	@PostMapping("/list2")
 	@ResponseBody
-	public List<FestivalVO> list() {
-	      List<FestivalVO> list = new ArrayList<>();
-	      return list ;
+	public List<FestivalVO> list(Fcriteria cri) {
+	      List<FestivalVO> list = service.getList(cri);
+	      return list;
 	}
 	
 	// 등록
 	@PostMapping("/register")
-	public String register(FestivalVO festival, RedirectAttributes rttr,MultipartFile file,HttpSession session) {
+	public String register(FestivalVO festival,@RequestParam String mountain_no, RedirectAttributes rttr, MultipartFile file) {
 		//  RedirectAttributes에서 제공하는 메소드: addFlashAttribute() -> 리다이렉트 이후 소멸
+		System.out.println(mountain_no);
 		service.register(festival);
 		
 		
@@ -77,11 +78,17 @@ public class FestivalController {
 			}
 			*/
 		
+		
 		//FileUpload 21.02.23 추가
         if(file !=null) {
 		   festival.setFilename(festival.getNo() +"_" +file.getOriginalFilename());
 		   service.modify(festival);
-		   fileUpSvc.write(file, festival.getFilename());
+		   try {
+			fileUpSvc.transfer(file, festival.getFilename());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         }
 		
 		
@@ -94,15 +101,18 @@ public class FestivalController {
 	}
 	
 	@GetMapping("/register")
-	public void register(@ModelAttribute("cri") Fcriteria cri, Model model) {
-		List<MnameVO> list = mountainService.getMnameList();
+	public void register(@ModelAttribute("cri") MCriteria mcri, Fcriteria cri, Model model) {
+		
+		List<FestivalVO> flist = service.getList(cri);
+		List<MountainVO> list = mountainService.getList(mcri);
+		model.addAttribute("flist",flist);
 		model.addAttribute("list",list);
 	}
 	
 	// 리스트
 	// 목록으로 돌아올 때 404 오류 뜰때
 	@GetMapping("/list")
-	public void list(Model model, @ModelAttribute("cri")Fcriteria cri) {
+	public void list(Model model, @ModelAttribute("cri")Fcriteria cri,@ModelAttribute("mcri")MCriteria mcri, @ModelAttribute("mvo") MountainVO mvo) {
 		//FpageDTO dto = new FpageDTO(cri, total);
 		
 	List<FestivalVO> list = service.getList(cri);
@@ -110,7 +120,8 @@ public class FestivalController {
 		int total = service.getTotal(cri);
 		
 		FpageDTO dto = new FpageDTO(cri, total);
-		
+		log.info("**********cri**********" + cri);
+		 
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", dto);
 				
@@ -123,12 +134,14 @@ public class FestivalController {
 	
 	// get => no/ modify
 		@GetMapping({"/get", "/modify"})
-		public void get(@RequestParam("no")int no, Model model,@ModelAttribute("cri")Fcriteria cri) {
+		public void get(@RequestParam("no") int no, @RequestParam String mname, Model model,@ModelAttribute("cri")Fcriteria cri) {
 			log.info("/get or modify");
-			
+			MountainVO mvo = service.mountainLoc(mname);
+			//MountainVO mvo = service.mountainLoc(mloc);
 			FestivalVO vo =service.get(no);	
 			//service.get(no)
 			model.addAttribute("festival",vo);
+			model.addAttribute("mountain",mvo);
 		}
 	
 	// 수정

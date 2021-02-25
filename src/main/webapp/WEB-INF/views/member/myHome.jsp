@@ -85,9 +85,9 @@ var root = '${root}';
 									</dl>
 								</div>
 								<a href="/mountain/member/myModify">
-									<input type="button" class="btn btn-primary mb-4" value="수정">
+									<input type="button" class="btn btn-success mb-4" value="수정">
 								</a>
-								<input type="button" class="btn btn-primary mb-4 float-center" data-toggle="modal" data-target="#memberDeleteModal" value="탈퇴">
+								<input type="button" class="btn btn-success mb-4 float-center" data-toggle="modal" data-target="#memberDeleteModal" value="탈퇴">
 								<modal:memberDeleteModal />
 							</div>
 						</div>
@@ -103,9 +103,15 @@ var root = '${root}';
 			
 			
 			
-			
-			
-			
+			<!-- <input type="button" url="" /> -->
+			<%--
+					<form id="mysan" method="post" action="${pageContext.request.contextPath }/conquest/get" >
+					<!--  <input type="hidden" name="user_nickname" value="${authUser.nickname }"/>  -->
+					<button id="" type="submit" class="btn btn-outline-success">내 정복 산 관리</button>
+				</form>
+			 --%>
+				
+				
 			<!-- 정복 산 리스트 -->
 
 			<!-- row 방향으로 가로 배열할 때, 중앙 정렬  -->
@@ -150,12 +156,11 @@ var root = '${root}';
 												<div class=" mb-auto align-self-end" >
 													<input hidden="hidden" name="member_no" value="${authUser.no }"></input>
 													<input hidden="hidden" name="mountain_no" value="${conq.mountain_no }"></input> 
-													<button name="plusminus" type="button" class="plus btn btn-success"
+													<button name="plus" type="button" class="up-btn btn btn-success"
 													onclick="Count('p',this);" type="submit">정복+1 !!!!</button>
 													<input type="text" name="conquestcnt" value="${conq.conquestcnt }" readonly="readonly" style="text-align: center;" />
 													<button name="minus" type="button" onclick="Count('m', this);" 
-													class="btn btn-outline-success">잘못눌렀네,,</button>													
-													<div><button class="up-btn btn btn-success" type="submit"> update </button></div>
+													class="down-btn btn btn-outline-success">잘못눌렀네,,</button>													
 												 </div>
 											</td>
 										</tr>

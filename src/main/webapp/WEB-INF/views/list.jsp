@@ -48,7 +48,7 @@ var root = '${root}';
 					<div class="row">
 	          	</c:if>
 			
-	        	<div class="card col-xs-12 col-sm-6 col-lg-4 mt-4"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
+	        	<div class="col-xs-12 col-sm-6 col-lg-4 mt-4"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
 					<div class="card h-100">
 					
 					 <%--
@@ -100,7 +100,7 @@ var root = '${root}';
 	    		<c:param name="amount">${cri.amount }</c:param>
 	    		<c:param name="keyword">${cri.keyword }</c:param>
 	    	  </c:url>
-		      <a class="page-link" href="${prevUrl }">Previous</a>
+		      <a class="page-link" href="${prevUrl }">Prev</a>
 		    </li>
 		    
 		    <c:forEach var="page" begin="${pages.startPage }" end="${pages.endPage }">

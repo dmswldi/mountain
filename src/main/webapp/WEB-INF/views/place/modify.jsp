@@ -16,6 +16,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="${root }/resources/js/place/maxlength.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
 <script>
@@ -27,6 +29,20 @@ $(document).ready(function() {
 	
 	history.replaceState({}, null, null);
 	
+    $("#submitBtn").click(function byteMaxLengthCheck(){
+        if(!maxLengthCheck("input2", "명소", "45")){
+            return false;
+        }
+        if(!maxLengthCheck("input3", "주소", "200")){
+            return false;
+        }
+        if(!maxLengthCheck("input4", "설명", "1000")){
+            return false;
+        }
+        if(!maxLengthCheck("file-img", "파일명", "175")){
+            return false;
+        }
+    });
 });
 </script>
 <style type="text/css">
@@ -117,7 +133,7 @@ $(document).ready(function() {
 						<input type="hidden" name="amount" value="${cri.amount }" />
 							<input type="hidden" name="type" value="${cri.type }" />
 								<input type="hidden" name="keyword" value="${cri.keyword }" />
-			<button type="submit" class="btn btn-primary m-1">확인</button>
+			<button type="submit" class="btn btn-outline-success m-1">확인</button>
 			<c:url value="/place/list" var="listLink">
 				<c:param name="pageNo" value="${cri.pageNo}" />
 				<c:param name="amount" value="${cri.amount }" />
@@ -125,7 +141,7 @@ $(document).ready(function() {
 				<c:param name="keyword" value="${cri.keyword }" />
 			</c:url>
 			<a href="${listLink }"><button type="button"
-					class="btn btn-secondary m-1">취소</button></a></div>
+					class="btn btn-outline-secondary m-1">취소</button></a></div>
 			</form>
 
 		</div>

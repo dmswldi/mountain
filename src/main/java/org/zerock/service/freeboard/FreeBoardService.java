@@ -13,8 +13,8 @@ public interface FreeBoardService {
 
 	public void register(FreeBoardVO vo);
 
-	public List<FreeBoardVO> getList();
 	public List<FreeBoardVO> getList(FCriteria cri);//paging처리를 위한 code
+	public int getTotal(FCriteria cri);
 
 	public FreeBoardVO get(Long no);
 	
@@ -22,6 +22,6 @@ public interface FreeBoardService {
 
 	public boolean modify(FreeBoardVO vo);
 	
-	public int getTotal(FCriteria cri);
+
 
 }

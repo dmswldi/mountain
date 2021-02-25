@@ -34,7 +34,13 @@ public class RestaurantController {
 	private FileUpService fileUpSvc;
 
 	@GetMapping("/list")
-	public void list(Model model, @ModelAttribute("cri") Rcriteria cri) {
+	public void list(Model model, @ModelAttribute("cri") Rcriteria cri, HttpSession session) {
+		Object o = session.getAttribute("authUser");
+		
+		if (o != null) {
+			MemberVO authUser = (MemberVO) o;
+			cri.setUserno(authUser.getNo());
+		}
 		List<RestaurantVO> list = service.getList(cri);
 		// userno 세션 가져오기
 		// int userno = (authUser)
@@ -47,13 +53,10 @@ public class RestaurantController {
 
 	}
 	
-	@GetMapping(value = "/list2")
+	/* MOUNTAIN.get.jsp에서 ajax 사용 */
+	@PostMapping(value = "/list2")
 	public ResponseEntity<List<RestaurantVO>> list(Rcriteria cri){
 		List<RestaurantVO> list = service.getList(cri);
-		
-		//int total = service.getTotal(cri);
-		//RpageDTO dto = new RpageDTO(cri, total);
-		
 		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
 
@@ -73,7 +76,7 @@ public class RestaurantController {
 			restaurant.setRloc(address);
 			log.info("**************************" + restaurant + "******************************");
 			service.register(restaurant);
-			if(file != null) {
+			if(file != null && file.getSize() > 0) {
 				restaurant.setFilename("restaurant_"+restaurant.getNo()+"_"+file.getOriginalFilename());
 				service.modify(restaurant);
 				try {

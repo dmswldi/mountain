@@ -34,58 +34,107 @@ var no = ${festival.no};
 			<div class="col-12 col-sm-6 offset-sm-3">
 				<h1>게시물 보기</h1>
 			</div>
-		</div>
+		</div> <br/>
 		
 		<div class="row">
 			<div class="col-12 col-sm-6 offset-sm-3">
-
-
+			
+			
+               <!--산 이름  
 				<div class="form-group">
-					<label for="input1">산 이름</label> <input name="ename" class="form-control"
+					<label for="input1"></label> <input name="ename" class="form-control"
 						type="text" id="input1" readonly value="${festival.ename }"/>
 				</div>
-
-				<div class="form-group">
-					<label for="input2">소개</label> <input readonly
-						value='<c:out value="${festival.description }" />' type="text"
-						class="form-control" id="input2" >
-				</div>
-                
+				-->
 				
-		    <div class="form-group">
-					<label for="input3">행사 시기</label> <input readonly
-						value='<c:out value="${festival .month }" />' type="number"
+				<div class="form-group">
+				<label for="input5"></label>
+				<input type="hidden" readonly value="${festival.no }" name="fboardNo"/>
+			
+				</div>
+				
+				
+				
+                <div class="form-group">
+					<label for="input3">축제 기간(월)</label> <input readonly
+						value='<c:out value="${festival .month}" />' type="number"
 						class="form-control" id="input3">
 				</div>
+				
+				
+				
 				<!-- 2021.02.23 추가-->
 					<div>
 				<img alt="" class="img-fluid"src="/static/${festival.filename}">
 				</div>
-				 
 				
-				 <!-- 2021.02.23 추가 
-				 <div class="card mb-3">
-						<div class="row">
-							<div class="col-sm-4 d-flex align-items-center">
-								<img src="${staticPath }/${festival.filename}" class="card-img img-fluid"
-									style="width: 180px; height: 185px;">
-							</div>
-				 --> 
-				 
+				
 				<div class="form-group">
-					<label for="input4">산 번호</label> <input readonly
-						value='<c:out value="${festival .mountain_no}" />' type="number"
+					<label for="input2">축제 설명</label> <input readonly
+						value='<c:out value="${festival.description }" />' type="text"
+						class="form-control" id="input2" >
+				</div>
+                 <!--  
+				<div class="form-group">
+					<label for="input4">산 위치</label> <input readonly
+						value='<c:out value="${mountain.mloc}" />' type="text"
 						class="form-control" id="input4">
 				</div>
+				-->
+				  <!--산 이름  -->
+				<div class="form-group">
+					<label for="input1">축제 이름</label> <input name="ename" class="form-control"
+						type="text" id="input1" readonly value="${festival.ename }"/>
+				</div>
+				
 				<c:url value="/festival/modify" var="modifyLink">
 				<c:param name="no" value="${festival.no }"></c:param>
+				<c:param name="mname" value="${festival.ename }"></c:param>
 				<c:param name="pageNum" value="${cri.pageNum }"></c:param>
 				<c:param name="amount" value="${cri.amount }"></c:param>
 				</c:url>
+				
+				 
+				<div class="form-group">
+				<label for="input6">산 위치</label>
+				<input name="mloc" class="form-control" type="text" id="input6" readonly value="${mountain.mloc }"/>
+				</div>
+				
+				
+			<c:if test="${authUser.manager == 1 }">
 		       <a href="${modifyLink }" class="btn btn-outline-success"> 수정 </a>
 		     
-		  <a href="/mountain/festival/list" class="btn btn-outline-success">게시물 목록</a> <br/>
+		      
+		     <!-- 버튼 -->
+		     <input class="btn btn-outline-success" type="button" value="취소" onclick="history.back(-1)">
+		    </c:if> 
+		     
+		   <!--   <button type="submit" id="back-Btn" class="btn btn-warning">취소</button>
+		     
+		 
+                 <script>
+                   $("#back_Btn").click(function(){
+                  history.back();
+                 location.href = "/mountain/festival/list?n=" + ${festival.no};
+                  });   
+                  </script>
+		     
+		     -->
+		      <a href="/mountain/festival/list" class="btn btn-outline-success">게시물 목록</a>
 		
+		      <div style="float:left; margin-right:10px; ">
+		     <form action="${root}/festival/remove" method="post">
+		     <input type="hidden" name="no" value="${param.no }">
+		     <c:if test="${authUser.manager == 1 }">
+		       <button id="remove-btn" type="submit" data-oper="remove" class="btn btn-outline-success">삭제</button> <br/>
+		     </c:if>
+	         </form>
+	         </div>
+	
+		  
+		 
+		 
+		 
 		 <!--  
 		        <c:url value="/festival/list" var="listLink">
 				<c:param name="no" value="${festival.no }"></c:param>

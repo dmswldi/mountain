@@ -38,7 +38,7 @@
 						<div class="input-group">	
 						    <input type="text" name="id" class="form-control" id="inputId" pattern="[a-z0-9]{4,20}" required value=${param.id }>
 						    <span class="input-group-btn">
-						   		<button type="button" class="btn btn-primary" id="idDupCheck" >아이디 중복 확인</button>
+						   		<button type="button" class="btn btn-success" id="idDupCheck">아이디 중복 확인</button>
 						    </span>
 				    	</div>
 				    	
@@ -71,7 +71,7 @@
 				<div class="form-group row">
 					<label for="password" class="col-sm-2 col-form-label">비밀번호</label>
 					<div class="col-sm-10">
-						<input type="password" name="password" class="form-control" id="password" pattern="([a-zA-Z]+\d{1}\w*)|(\d+[a-zA-Z]{1}\w*)" required>
+						<input type="password" name="password" class="form-control" id="password" pattern="([a-zA-Z]+\d{1}\w*)|(\d+[a-zA-Z]{1}\w*)" value="${param.password }" required>
 						
 						<!-- 비밀번호 check -->
 						<c:if test="${not errors.pwPatternError }">
@@ -94,7 +94,7 @@
 				<div class="form-group row">
 					<label for="pwConfirm" class="col-sm-2 col-form-label">비밀번호 확인</label>
 					<div class="col-sm-10">
-						<input type="password" name="pwConfirm" class="form-control" id="pwConfirm" required>
+						<input type="password" name="pwConfirm" class="form-control" id="pwConfirm" value="${param.pwConfirm }" required>
 						 
 						<!-- 비밀번호 확인 check -->
 						<c:if test="${errors.pwNotMatch }" >
@@ -103,7 +103,7 @@
 							</small>
 						</c:if>
 						<c:if test="${errors.memberPwConfirm }">
-							<small class="form-text" style="color: tomato">
+							<small class="form-text" style="color: tomato" id="pwCfNullError">
 								비밀번호 확인을 입력해주세요.
 							</small>
 						</c:if>
@@ -114,10 +114,10 @@
 					<label for="email" class="col-sm-2 col-form-label">E-mail</label>
 					<div class="col-sm-10">
 						<input type="hidden" name="email" id="email-input" />
-						<input type="text" name="emailFront" id="email" value="${param.emailFront}" class="form-control d-inline" style="width:30%" placeholder="이메일 입력" required> 
+						<input type="text" name="emailFront" id="emailFront" value="${param.emailFront}" class="form-control d-inline" style="width:30%" placeholder="이메일 입력" required> 
 						<span>@</span>
-						<input id="textEmail" name="textEmail" value="${param.textEmail}" class="form-control d-inline" style="width:30%" placeholder="이메일 선택"> 
-							<select id="select">
+						<input id="textEmail" name="textEmail" class="form-control d-inline" style="width:30%" placeholder="이메일 선택" required> 
+							<select id="email-select1">
 								<option value="disabled" id=selected>E-Mail 선택</option>
 								<option value="naver.com" id="naver.com">naver.com</option>
 								<option value="hanmail.net" id="hanmail.net">hanmail.net</option>
@@ -125,15 +125,16 @@
 								<option value="nate.com" id="nate.com">nate.com</option>
 								<option value="directly" id="textEmail">직접 입력하기</option>
 							</select>
-						<small class="form-text" style="color: gray" id="emailPattern"></small>
+						<small class="form-text" style="color: gray" id="emailPattern">
+							이메일 형식에 알맞게 입력해주세요. (예 : kim@mounteam.com)
+						</small>
 						
 						<!-- 이메일 check -->
 						<c:if test="${errors.memberEmail }">
-							<small class="form-text" style="color: tomato">
+							<small class="form-text" id="emailError" style="color: tomato">
 								이메일을 입력해주세요.
 							</small>
-						</c:if>
-					   
+						</c:if>					   
 					</div>
 				</div>
 							  
@@ -144,7 +145,7 @@
 						
 						<!-- 이름 check -->
 						<c:if test="${errors.memberName }">
-							<small class="form-text" style="color: tomato">
+							<small class="form-text" style="color: tomato" id="nameNull">
 								이름을 입력해주세요.
 							</small>
 						</c:if>
@@ -157,14 +158,14 @@
 						<div class="input-group">
 							<input type="text" name="nickname" class="form-control" id="inputNickname" required value=${param.nickname }>    
 							<span class="input-group-btn">
-								<button type="button" class="btn btn-primary" id="nicknameDupCheck" >닉네임 중복 확인</button>
+								<button type="button" class="btn btn-success" id="nicknameDupCheck">닉네임 중복 확인</button>
 							</span>
 						</div> 
 						<input type="hidden" id="checkedNn" value="">
 						
 						<!-- 닉네임 check -->
 						<c:if test="${errors.memberNickname }">
-							<small class="form-text" style="color: tomato">
+							<small class="form-text" style="color: tomato" id="nicknameNullError">
 								닉네임을 입력해주세요.
 							</small>
 						</c:if>
@@ -185,18 +186,18 @@
 				<div class="form-group row">
 					<label for="loc" class="col-sm-2 col-form-label">주소</label>
 					<div class="col-sm-10">
-						<input type="hidden" name="loc" id="loc-input" required>
+						<input type="hidden" name="loc" id="loc-input" value="${param.loc }">
 						
 						<!-- //주소 api input 태그	 -->	 
-						<input type="text" id="sample3_postcode" placeholder="우편번호">
+						<input type="text" name="postcode" id="sample3_postcode" placeholder="우편번호" value="${param.postcode }">
 						<input type="button" onclick="sample3_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" id="sample3_address" placeholder="주소"><br>
-						<input type="text" id="sample3_detailAddress" placeholder="상세주소" value="">
-						<input type="text" id="sample3_extraAddress" placeholder="참고항목">
+						<input type="text" name="address" id="sample3_address" placeholder="주소" value="${param.address }"><br>
+						<input type="text" name="detailAddress" id="sample3_detailAddress" placeholder="상세주소" value="${param.detailAddress }">
+						<input type="text" name="extraAddress" id="sample3_extraAddress" placeholder="참고항목" value="${param.extraAddress }">
 						
 						<!-- 주소 check -->
 						<c:if test="${errors.memberLoc }">
-							<small class="form-text" style="color: tomato">
+							<small class="form-text" style="color: tomato" id="locNullError">
 								주소를 입력해주세요.
 							</small>
 						</c:if>
@@ -206,7 +207,7 @@
 					</div>
 				</div>
 				
-				<button type="submit" class="btn btn-primary" id="join" >회원 가입</button>
+				<button type="submit" class="btn btn-success" id="join" >회원 가입</button>
 			</form>
 			
 		</div>

@@ -41,9 +41,7 @@ public class FreeBoardServiceTests {
 		vo.setContent("새로 작성하는 내용updateeeee");
 		vo.setMember_no(1);
 		
-		int before = mapper.getList().size();
 		
-		service.register(vo);
 //
 //		MemberVO mvo = new MemberVO();
 //		mvo.setNo(1L);
@@ -52,9 +50,6 @@ public class FreeBoardServiceTests {
 //		
 //		((HttpSession) session).setAttribute("member1",mvo);
 		
-		int after = mapper.getList().size();
-		
-		assertEquals(before + 1, after);
 	}
 	
 	@Test

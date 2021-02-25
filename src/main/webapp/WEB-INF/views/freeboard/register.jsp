@@ -59,7 +59,7 @@ h5 {
 		<div class="row">
 			<div class="col-12 col-sm-6 offset-sm-3">
 
-				<form id="newBoardForm" method="post"<%-- action="${pageContext.request.contextPath }/freeboard/register" --%>>
+				<form id="newBoardForm" method="post" action="${pageContext.request.contextPath }/freeboard/register" >
 					<!--  <input type="hidden" name="user_nickname" value="${authUser.nickname }"/>  -->
 					<div class="form-group">
 						<label for="input1">제목</label> <input name="title" type="text"

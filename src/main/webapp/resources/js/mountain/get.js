@@ -192,6 +192,7 @@ $(function(){
 		
 		/* ajax:restaurant */
 		$.ajax(root + '/restaurant/list2', {
+			type: 'post',
 			dataType: 'json',
 			data: {type: "M", keyword: curMname} /* 알아서 쿼리스트링 붙음 */
 		}).done(function(data){
@@ -202,9 +203,11 @@ $(function(){
 				//$('#nav_contents').append('index: '+ index + ', element: ' + element.rname + '<br>');
 				
 				$('#nav_contents').append(
-					'<div class="col-sm-6">'
+					'<div class="col-sm-6 res">'
 					+	'<div class="card mb-3">'
 					+		'<input type="hidden" value="' + element.no + '" id="rno">'
+					+		'<input type="hidden" value="' + element.dislikeClick + '" id="likeno">'
+					+		'<input type="hidden" value="' + element.likeClick + '" id="dislikeno">'
 					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid" style="height:300px; object-fit:cover; overflow:hidden;">'
 					+		'<div class="card-body">'
 					+			'<h5 class="card-title"><b>' + element.rname + '</b></h5>'
@@ -216,21 +219,23 @@ $(function(){
 					+				'<br>전화 : ' +  element.contact + '</small><br>'
 					+			'</p>'
 					+			'<div class="d-flex justify-content-end align-items-center mb-1 likeDislike">'
-					+				'<button style="border:none;"><img data-resNo="' + element.no + '" id="like-img' + index+1 + '" src="' + root + '/resources/img/like/like_empty2.png" width="25px" height="25px"></button>'
-					+				'<span>&nbsp;' +  element.likecnt + '&nbsp;</span>'
-					+				'<button style="border:none;"><img data-resNo="' + element.no + '" id="dislike-img' + index+1 + '" src="' + root + '/resources/img/like/dislike_empty.png" width="25px" height="25px"></button>'
-					+				'<span>&nbsp;' + element.dislikecnt + '</span>'
+					+				'<img data-resNo="' + element.no + '" id="like-img" src="' + root + '/resources/img/like/like_empty2.png" role="button" width="25px" height="25px">'
+					+				'<span class="like mx-1">' +  element.likecnt + '</span>'
+					+				'<img data-resNo="' + element.no + '" id="dislike-img" src="' + root + '/resources/img/like/dislike_empty.png" role="button" width="25px" height="25px">'
+					+				'<span class="dislike ml-1">' + element.dislikecnt + '</span>'
 					+			'</div>'
 					+		'</div>'
 					+	'</div>'
 					+'</div>'
 				);
 				
-				/*
-				$('#nav_contents div').last().find('img').click(function() {
-					$(this).siblings('.btn1').toggle(10);
-				});
-				*/
+				// 이미지 처리
+				var img = $('#nav_contents .res').last().find('.likeDislike img');
+				if(element.likeClick == 1) {
+					img.first().attr('src', root + '/resources/img/like/like_full.png');
+				} else if(element.dislikeClick == 1) {
+					img.last().attr('src', root + '/resources/img/like/dislike_full.png');
+				}
 				
 			});
 			
@@ -245,17 +250,83 @@ $(function(){
 		});
 	});
 	
+	/* 동적 태그 이벤트 생성존 */
+	// 좋아요 올린 다음에 (like만 다녀와서) 편법으로 +1, -1
+	$(document).on('click', '#nav_contents .likeDislike img', function() {
+		//console.log('좋아요, ' + $(this).attr("id"));
+		
+        if(userno == '') {
+        	swal({
+			  	title: "Not Allowed",
+			  	text: "로그인 후 이용해주세요.",
+			  	icon: "warning",
+			  	button: "close"
+			});
+			return ;	
+		}
+       
+        var likeno;
+        var dislikeno;
+        var resno = $(this).closest('.card').find('input').val();
+        
+        if($(this).attr("id").startsWith('like')){// 좋아요 누르면
+        
+        	var span = $(this).siblings('.like');
+        	
+        	var like = $(this).closest('.card').find('input#likeno').val();
+        	console.log('like: ' + like);
+        	if(like >= 1) {
+        		console.log('이미 좋아요 상태');
+        		return ; 
+        	}
+        	
+        	likeno = 1;
+        	dislikeno = 0;
+        	span.html(Number(span.html())+1);
+        	
+			$(this).attr('src', root + '/resources/img/like/like_full.png');
+			$(this).siblings('#dislike-img').attr('src', root + '/resources/img/like/dislike_empty.png');
+        	
+        } else {// 싫어요 누르면
+        	var span = $(this).siblings('.dislike');
+        	var dislike = $(this).closest('.card').find('input#dislikeno').val();
+        	
+        	console.log('dislike: ' + dislike);
+        	if(dislike >= 1) {
+        		console.log('이미 싫어요 상태');
+        		return ;
+        	}
+        	
+        	likeno = 0;
+        	dislikeno = 1;
+        	span.html(Number(span.html())+1);  	
+        	
+			$(this).siblings('#like-img').attr('src', root + '/resources/img/like/like_empty2.png');
+			$(this).attr('src', root + '/resources/img/like/dislike_full.png');
+			
+        }
+        
+        
+        $.ajax(root + '/restaurant/like2', {
+			type: 'post',
+			dataType: 'json',
+			data: {likeno: likeno, dislikeno: dislikeno, userno: userno, resno: resno}
+		});
+        
+	});
+	
 	$('.nav #link3').click(function(){
 		$('.nav_body').hide();
 		$('#listBtn').siblings('.btn').hide();
 		$('#nav_contents').show();
 		
 		/* ajax:festival */
-		$.ajax(root + '/festival/list', {////////////////// 만들어야 돼! 페스티벌 컨트롤러에!
+		$.ajax(root + '/festival/list2', {
+			type: 'post',
 			dataType: 'json',
 			data: {type: "M", keyword: curMname}
 		}).done(function(data){
-			//console.log(data);
+			console.log(data);
 			$('#nav_contents').empty();
 			
 			$(data).each(function(index, element) {
@@ -267,7 +338,7 @@ $(function(){
 					+		'<div class="card-body">'
 					+			'<h5 class="card-title"><b>' + element.ename + '</b></h5>'
 					+			'<p class="card-text">' + element.mname + '</p>'
-					+			'<p class="card-text">' + element.month + '</p>'
+					+			'<p class="card-text">행사시기: ' + element.month + '월</p>'
 					+			'<p class="card-text">'
 					+				'<small class="text-muted">' + element.description + '</small>'
 					+			'</p>'
@@ -295,6 +366,7 @@ $(function(){
 		
 		/* ajax:place */
 		$.ajax(root + '/place/list2', {
+			type: 'post',
 			dataType: 'json',
 			data: {type: "M", keyword: curMname}
 		}).done(function(data){
@@ -335,24 +407,30 @@ $(function(){
 	$('.nav #link5').click(function(){
 		$('.nav_body').hide();
 		$('#listBtn').siblings('.btn').hide();
-		$('#nav_map').show();
+		$('#nav_contents').show();
+		//$('#nav_map').show();
+		
 		
 		/* ajax:map api */
-		var options = { //지도를 생성할 때 필요한 기본 옵션
-			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-			level: 3 //지도의 레벨(확대, 축소 정도)
-		};
-		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		//var options = { //지도를 생성할 때 필요한 기본 옵션
+		//	center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+		//	level: 3 //지도의 레벨(확대, 축소 정도)
+		//};
+		//var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 		
 		
+		$('#nav_contents').empty();
+		
+		$('#nav_contents').append("준비중입니다.");
+		$('#nav_contents').wrapInner('<div class="row mt-3 ml-5" />');
 		
 	});
 	
-	
+	/*
 	$(window).on("mounseover", "img", function(){
-						$(this).hover('background-color', 'red');
-						//$(this).css('background-color', 'red');
-				});
-	
+		$(this).hover('background-color', 'red');
+		$(this).css('background-color', 'red');
+	});
+	*/
 	
 });

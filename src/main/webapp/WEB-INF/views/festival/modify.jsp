@@ -32,7 +32,7 @@ $(document).ready(function(){
 		
 		var operation = $(this).data("oper");
 		console.log(operation);
-		
+			
 		if(operation ==='remove'){
 			formObj.attr("action", "/festival/remove");
 		}else if(operation ==='list') {
@@ -66,6 +66,13 @@ $(document).ready(function(){
 </head>
 <body>
 <u:topNav/>
+<c:if test="${authUser.manager != 1 }">
+<script>
+	alert('어디서 개수작을');
+	location.href="${root}/festival/list";
+</script>
+
+</c:if>
 <div class="container-sm">
 <div class="row">
 <div class="col-12 col-sm-6 offset-sm-3">
@@ -128,24 +135,28 @@ class="custom-select my-1 mr-sm-2 bd-highlight" id="input3" required>
 					</div>
 					  
 				<div style="float:left; margin-right:10px; ">
-		       <a href="${modifyLink }" ><button type="submit" class="btn btn-primary"> 수정</button> </a>
+		       <a href="${modifyLink }" ><button type="submit" class="btn btn-outline-success"> 수정</button> </a>
 		         </div>
 		        </form>
+		 
+		    
 		     
 		      
-		     <!-- <a href="/mountain/festival/modify" class="btn btn-outline-success">수정</a> --> 
+		      <input class="btn btn-outline-success" type="button" value="취소" onclick="history.back(-1)">
+		      
+		     
+		     <div style="float:left; margin-right:10px;">
+		     <form action="${root}/festival/remove" method="post">
+		     <input type="hidden" name="no" value="${param.no }">
+		     <button id="remove-btn" type="submit" data-oper="remove" class="btn btn-outline-success">삭제</button> <br/>
+	         </form>
+	         </div>
+	
+	 <!-- <a href="/mountain/festival/modify" class="btn btn-outline-success">수정</a> --> 
 		    <!-- mountain/festival/list ==> {{root}/festival/list -->
 		    <div style="float:left; margin-right:10px;">
 		     <a href="${root}/festival/list" class="btn btn-outline-success">게시물 목록</a> 
 		     </div>
-		     
-		     
-		     <form action="${root}/festival/remove" method="post">
-		     <input type="hidden" name="no" value="${param.no }">
-		     <button id="remove-btn" type="submit" data-oper="remove" class="btn btn-danger">삭제</button>
-	         </form>
-	
-	
 	
 </div>
 </div>          

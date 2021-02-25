@@ -13,7 +13,7 @@
 					<when test="type == 'C'.toString()"> content
 						LIKE '%' || #{keyword} || '%' </when>
 					<when test="type == 'W'.toString()">
-						member_no LIKE '%' || #{keyword} || '%' </when>
+						user_nickname LIKE '%' || #{keyword} || '%' </when>
 				</choose>
 			</foreach>
 		</where>
@@ -60,6 +60,8 @@
 		FROM
 		FreeBoard f
 		INNER JOIN Member m ON f.user_nickname=m.nickname
+				<include refid="fcriteria"></include>
+		
 	</select><!-- resultType을 int로반환 -->
 
 

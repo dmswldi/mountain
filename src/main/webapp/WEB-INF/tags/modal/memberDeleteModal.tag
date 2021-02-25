@@ -26,7 +26,7 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="memberDeleteCancel2">취소</button>        
-	        <button type="button" class="btn btn-primary" id="memberDelete" data-userId="${authUser.id }">탈퇴</button>
+	        <button type="button" class="btn btn-success" id="memberDelete" data-userId="${authUser.id }">탈퇴</button>
 	      </div>
 	    </div>
 	  </div>

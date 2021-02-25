@@ -106,7 +106,8 @@ tr th {
 
       </tr>
       <tr>
-      <th scope="col" width="10%" class="text-center bg-secondary"><abbr title="모두선택"><input type="checkbox" name="allCheck" id="allCheck"/></abbr>
+      <th scope="col" width="10%" class="text-center bg-secondary"><abbr title="모두선택">
+      <input type="checkbox" name="allCheck" id="allCheck"/></abbr>
       <script>
 		$("#allCheck").click(function() {
 			var chk = $("#allCheck").prop("checked");
@@ -128,7 +129,10 @@ tr th {
 
     <tr>
       <td rowspan="2" class="text-center" style="vertical-align: middle">${adminList.no }
-      <br/><input type="checkbox" class="checkBox" data-userno="${adminList.no }" data-nickname="${adminList.nickname }"/>
+      <br/>
+         <c:if test="${adminList.id != 'admin' }">
+      <input type="checkbox" class="checkBox" data-userno="${adminList.no }" data-nickname="${adminList.nickname }"/>
+      </c:if>
       <script>
 		$(".checkBox").click(function() {
 			$("#allCheck").attr("checked", false);
@@ -149,7 +153,7 @@ tr th {
   </tbody>
 </table>
 		<div class="d-flex justify-content-end">
-		<abbr title="일반회원으로 변경하는 버튼"><button type="button" class="btn btn-outline-info " id="generalMember">to일반회원</button></abbr>
+		<abbr title="일반회원으로 변경하는 버튼"><button type="button" class="btn btn-outline-success " id="generalMember">to일반회원</button></abbr>
 		</div>
 			<div class="container-sm mt-3">
 				<div class="row justify-content-center">

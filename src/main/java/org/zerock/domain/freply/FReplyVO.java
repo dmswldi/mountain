@@ -1,4 +1,4 @@
-package org.zerock.domain.freeboard;
+package org.zerock.domain.freply;
 
 import java.util.Date;
 

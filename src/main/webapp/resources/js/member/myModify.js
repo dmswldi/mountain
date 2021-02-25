@@ -1,5 +1,7 @@
 $(document).ready(function() {
 		
+		$('#emailPattern').hide();
+
 		// ##패스워드 패턴 확인 멘트 - hide
 		$("#pwPattern").hide();
 		
@@ -37,7 +39,7 @@ $(document).ready(function() {
 						console.log("닉네임 null");
 						$('#nicknameOk').hide();
 						$('#nicknameDup').hide();
-						$('#nicknameNull').show(); //inputId가 빈 스트링일때 아이디를 적어주세요 멘트 어떻게 하냐!!!
+						$('#nicknameNull').show(); 
 					}
 				} 
 			}).fail(function() {
@@ -46,7 +48,7 @@ $(document).ready(function() {
 		});
 		
 		// ##(닉네임 수정 후) 중복 검사를 해주세요.
-		function nnKeyUp(){
+		function nnKeyup(){
 			$("#nicknameDupCheck").removeAttr("disabled"); // 버튼 비활성화 해제
 			$("#checkedNn").val('');
 			$("#modify").click(function(e) {
@@ -55,50 +57,74 @@ $(document).ready(function() {
 					alert("닉네임 중복 확인을 해주세요.");
 					return false;
 				} else {
-				$("#modifyForm1").submit();
+					$("#modifyForm1").submit();
 				}
 			});
 		}
-		$("#inputNickname").keyup(nnKeyUp);
+		$("#inputNickname").keyup(nnKeyup);
 		
-		// ##주소 값을 합쳐서 name="loc"로 보내기
-        function setLocInput() {
-        	var loc = $("#sample3_postcode").val() + "@" + $("#sample3_address").val() + "@" +
-        	$("#sample3_detailAddress").val() + "@" + $("#sample3_extraAddress").val();
-        	$("#loc-input").val(loc);
-        }
-  
-        $("#sample3_postcode").change(setLocInput);
-        $("#sample3_address").change(setLocInput);
-        $("#sample3_detailAddress").keyup(setLocInput);
-        $("#sample3_extraAddress").change(setLocInput);
-       
-        
+		
     	// ##이메일 주소 선택
-        $('#select').change(function() {
-            if ($('#select').val() == 'directly') {
-                $('#emailSelect').attr("disabled", false);
-                $('#emailSelect').val("");
-                $('#emailSelect').focus();
+        $('#email-select1').change(function() {
+            if ($('#email-select1').val() == 'directly') {
+                $('#textEmail').attr('disabled', false);
+                $('#textEmail').val('');
+                $('#textEmail').focus();
+                $('#textEmail').attr('pattern','[a-z0-9.-]+\.[a-z]{2,}$');
+                $('#emailPattern').show();
+            } else if($('#email-select1').val() == 'disabled') {
+            	$('#textEmail').val('');
+            	$('#textEmail').removeAttr('pattern','[a-z0-9.-]+\.[a-z]{2,}$');
+                $('#emailPattern').hide();
             } else {
-                $('#emailSelect').val($('#select').val());
+                $('#textEmail').val($('#email-select1').val());
+            	$('#textEmail').removeAttr('pattern','[a-z0-9.-]+\.[a-z]{2,}$');
+                $('#emailPattern').hide();
             }
         });
         
         // ##이메일 값을 합쳐서 name="email"으로 보내기
         function setEmailInput() {
-        	var email = $("#emailFront").val() + "@" + $("#emailSelect").val();  
+        	var email = $("#emailFront").val() + "@" + $("#textEmail").val();  
         	$("#email-input").val(email);
         }
         
-         $("#select").change(setEmailInput);
+        $("#email-select1").change(setEmailInput);
         $("#emailFront").keyup(setEmailInput);
-        $("#emailSelect").keyup(setEmailInput);
-        
+        $("#textEmail").keyup(setEmailInput);
+
         // ##비밀번호 값을 수정하면 pattern 멘트
         function showPwPattern() {
         	$("#pwPattern").show();
         }
         $("#staticPw").keyup(showPwPattern);
-                
+        
+        // ##주소 값이 변하면 주소를 입력해주세요 삭제.. 어떻게해ㅠㅠ
+		function hideLocError() {
+			if($("#sample3_postcode").val() || $("#sample3_address").val() ||
+				$("#sample3_detailAddress").val() || $("#sample3_extraAddress").val()){
+				$("#locNullError").hide();
+			} 
+		}
+		
+		$("#sample3_postcode").keyup(hideLocError);
+		$("#sample3_address").keyup(hideLocError);
+		$("#sample3_detailAddress").keyup(hideLocError);
+		$("#sample3_extraAddress").keyup(hideLocError);
+        
+        
+        
+        $("#sample3_postcode").change(setLocInput);
+        $("#sample3_address").change(setLocInput);
+        $("#sample3_detailAddress").keyup(setLocInput);
+        $("#sample3_extraAddress").change(setLocInput);
+       
     });
+    
+// ##주소 값을 합쳐서 name="loc"로 보내기
+function setLocInput() {
+	var loc = $("#sample3_postcode").val() + "@" + $("#sample3_address").val() + "@" +
+	$("#sample3_detailAddress").val() + "@" + $("#sample3_extraAddress").val();
+	$("#loc-input").val(loc);
+}
+  

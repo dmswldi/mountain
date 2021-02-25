@@ -11,11 +11,11 @@
 	var appRoot = '${root}';
 	var board_no = '${freeboard.no}';
 	var anick = '${authUser.nickname}';
-	var fnick ='${vo.replyer}';
-
+	var fnick = '${vo.replyer}';
 </script>
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
+<link rel="stylesheet" type="text/css"
+	href="${root }/resources/css/font.css">
 
 <!-- MOBILE최적화 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,7 +79,6 @@
 </script>
 
 <script>
-
 	$(document)
 			.ready(
 					function() {
@@ -109,21 +108,37 @@
 															+ '<small class="float-right">'
 															+ dateString(list[i].regdate)
 															+ "</small></h5>"
-															+ list[i].reply
-															+ "<hr></div></li>";
-															
+															+ "<span class='reply-li-body'>" + list[i].reply + "</span>"
+															+ "<hr></div> </li>";
+													var replyLI1 = $('<li ></li>');
+													var modInputButton = $('<input type="button" class="fre-modify-button btn btn-xs" style="color:green" value="수정/삭제" />').click(function() {
+														$("#modify-freply-modal").modal('show');
+														console.log($(this).closest("li").next().find(".reply-li-body").text());
+														$("#modify-no-reply").text($(this).closest("li").next().find(".reply-li-body").text());
+														$("#modify-no").text($(this).closest("li").next().attr("data-no"));
+													});
+													if (anick == list[i].replyer) { //유저닉네임이 글쓴이와 같으면~
+														replyUL.append(replyLI1.append(modInputButton));
+													}
 													replyUL.append(replyLI);
+													
 												}
 											});
 						}
 
-						/* 	// 댓글쓰기 버튼 click이벤트 처리
-						 $("#new-freply-button").click(function() { //댓글 쓰기 id가져옴
-						 console.log("댓글쓰기버튼 동작????????");
-						 $("#new-freply-modal").modal("show");
+						// 댓글쓰기 버튼 click이벤트 처리
+						$("#new-freply-button").click(function() { //댓글 쓰기 id가져옴
+							console.log("댓글쓰기버튼 동작????????");
+							$("#new-freply-modal").modal("show");
+							// 모달창 내의 textarea 요소들 value를 초기화
+							$("#new-freply-modal textarea").val("");
 
-						 }); */
+						});
 
+						
+						
+						
+						
 						//모달창_새로운 댓글_등록버튼 처리
 						$("#freply-submit-button")
 								.click(
@@ -133,9 +148,11 @@
 											var reply = $("#freply-textarea")
 													.val();
 											var replyer = $("#replyer-textarea")
-													.val();
+													.text();
 											console.log("reply:::::::::::::"
 													+ reply);
+											console.log("replyer:::::::::::::"
+													+ replyer);
 											// ajax 요청을 위한 데이터 만들기
 											var data = {
 												board_no : board_no,
@@ -147,7 +164,6 @@
 													.register(
 															data,
 															function() {
-																// 댓글 목록 가져오기 실행
 																showList();
 																alert("${authUser.nickname}"
 																		+ "님의 댓글 등록에 성공하였습니다.");
@@ -167,38 +183,44 @@
 										});
 
 						// freply-ul 클릭 이벤트 처리>  showList()에서 for문에서 li생성했던거!
+
+						$("#freply-ul").on(
+								"click",
+								"li",
+								function() {
+									//alert(anick);
+									var reply_writer = $(this).find("h5").attr(
+											"data-reply"); // 댓글 작성자 닉네임
+									//alert("댓글의 작성자 닉네임은:"+reply_writer);
+
+									if (anick == reply_writer) {
+										console.log("freply ul 선택.");
+
+										// 한개의 댓글  //수정 form의 modal-body의 data
+										var no = $(this).attr("data-no"); // 댓글 작성번호
+										FReplyService.get(no, function(data) {
+											$("#modify-no").val(no);
+											$("#modify-no-reply").val(
+													data.reply);
+											$("#modify-no-replyer").val(
+													data.replyer);
+											$("#modify-freply-modal").modal(
+													'show');
+										});
+									}
+								});
+
+						/* // 한개의 댓글  //수정 form의 modal-body의 data
+						var no = $(this).attr("data-no");
+						FReplyService.get(no, function(data) {
+							$("#modify-no").val(no);
+							$("#modify-no-reply").val(data.reply);
+							$("#modify-no-replyer").val(data.replyer);
+							$("#modify-freply-modal").modal('show');
+						});*/
+					
 						
-							$("#freply-ul").on("click", "li", function() {
-								//alert(anick);
-								var reply_writer = $(this).find("h5").attr("data-reply"); // 댓글 작성자 닉네임
-								//alert("댓글의 작성자 닉네임은:"+reply_writer);
-								
-								if(anick == reply_writer){
-									console.log("freply ul 선택.");
-									
-									// 한개의 댓글  //수정 form의 modal-body의 data
-									var no = $(this).attr("data-no"); // 댓글 작성번호
-									FReplyService.get(no, function(data) {
-									$("#modify-no").val(no);
-									$("#modify-no-reply").val(data.reply);
-									$("#modify-no-replyer").val(data.replyer);
-									$("#modify-freply-modal").modal('show');
-								    });	
-								}
-							});
-							 
 						
-							/* // 한개의 댓글  //수정 form의 modal-body의 data
-							var no = $(this).attr("data-no");
-							FReplyService.get(no, function(data) {
-								$("#modify-no").val(no);
-								$("#modify-no-reply").val(data.reply);
-								$("#modify-no-replyer").val(data.replyer);
-								$("#modify-freply-modal").modal('show');
-							});*/
-							
-							
-							
 						// 수정 버튼 이벤트 처리
 						$("#freply-modify-button").click(function() {
 							var no = $("#modify-no").val();
@@ -312,7 +334,7 @@ h4 {
 			<div class="col-12 col-lg-6 offset-lg-3">
 				<div class="card">
 					<div class="card-header">
-	<%-- 				<div>
+						<%-- 				<div>
 					${authUser.nickname }
 					</div>
 					<div>
@@ -330,7 +352,7 @@ h4 {
 								data-target="#new-freply-modal">댓글쓰기</button>
 						</c:if>
 						<!-- Button trigger modal 적용-->
-						<div>댓글을 수정하려면 해당댓글을 선택하세요.</div> 
+						<div>댓글을 수정하려면 로그인하여 해당댓글을 선택하세요.</div>
 
 					</div>
 					<div class="card-body">
@@ -423,11 +445,11 @@ h4 {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">취소</button>
-						<button id="freply-delete-button" type="button"
-							class="btn btn-outline-danger">삭제</button>
-						<button id="freply-modify-button" type="button"
-							class="btn btn-outline-success">완료</button>
-			
+					<button id="freply-delete-button" type="button"
+						class="btn btn-outline-danger">삭제</button>
+					<button id="freply-modify-button" type="button"
+						class="btn btn-outline-success">완료</button>
+
 				</div>
 			</div>
 		</div>

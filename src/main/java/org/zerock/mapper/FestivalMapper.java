@@ -5,6 +5,7 @@ import java.util.List;
 import org.zerock.domain.festival.Fcriteria;
 import org.zerock.domain.festival.FestivalVO;
 import org.zerock.domain.mountain.MnameVO;
+import org.zerock.domain.mountain.MountainVO;
 
 
 public interface FestivalMapper {
@@ -34,7 +35,7 @@ public interface FestivalMapper {
 
 	public int getTotalCount(Fcriteria cri);
 
-
+	public MountainVO mountainLoc(String mname);
 
 	
 	

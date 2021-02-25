@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="u" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="u" tagdir="/WEB-INF/tags/admin"%>
 
 <!DOCTYPE html>
 <html>
@@ -161,7 +161,7 @@ input {
   </tbody>
 </table>
 		<div class="d-flex justify-content-end">
-		<abbr title="관리자로 변경하는 버튼"><button type="button" class="btn btn-outline-info" id="managerChange">to관리자</button></abbr>
+		<abbr title="관리자로 변경하는 버튼"><button type="button" class="btn btn-outline-success" id="managerChange">to관리자</button></abbr>
 		</div>
 			<div class="container-sm mt-3">
 				<div class="row justify-content-center">
@@ -169,7 +169,7 @@ input {
 						<ul class="pagination">
 
 							<c:if test="${page.prev }">
-								<c:url value="/admin/list" var="prevLink">
+								<c:url value="/admin/memberlist" var="prevLink">
 									<c:param value="${page.startPage -1 }" name="pageNo" />
 									<c:param value="${page.cri.amount }" name="amount" />
 									<c:param name="type" value="${page.cri.type }" />
@@ -182,7 +182,7 @@ input {
 
 							<c:forEach var="num" begin="${page.startPage }"
 								end="${page.endPage }">
-								<c:url value="/admin/list" var="pageLink">
+								<c:url value="/admin/memberlist" var="pageLink">
 									<c:param name="pageNo" value="${num }" />
 									<c:param name="amount" value="${page.cri.amount }" />
 									<c:param name="type" value="${page.cri.type }" />
@@ -194,7 +194,7 @@ input {
 							</c:forEach>
 
 							<c:if test="${page.next }">
-								<c:url value="/admin/list" var="nextLink">
+								<c:url value="/admin/memberlist" var="nextLink">
 									<c:param name="pageNo" value="${page.endPage +1 }" />
 									<c:param name="amount" value="${page.cri.amount }" />
 									<c:param name="type" value="${page.cri.type }" />

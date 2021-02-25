@@ -17,6 +17,8 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" src="${root }/resources/js/restaurant/maxlength.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
 <script>
 $(document).ready(function() {
@@ -27,9 +29,29 @@ $(document).ready(function() {
 	
 	history.replaceState({}, null, null);
 	
+    $("#modifySubmitBtn").click(function byteMaxLengthCheck(){
+        if(!maxLengthCheck("input2", "상호", "45")){
+            return false;
+        }
+        if(!maxLengthCheck("input4", "연락처", "45")){
+            return false;
+        }
+        if(!maxLengthCheck("input5", "메뉴", "500")){
+            return false;
+        }
+        if(!maxLengthCheck("input6", "설명", "1000")){
+            return false;
+        }
+        if(!maxLengthCheck("file-img", "파일명", "175")){
+            return false;
+        }
+    });
 });
 </script>
 <style type="text/css">
+.swal-title {
+  font-size: 20px;
+}
 .address-form #sample3_address {
 	width: 60%;
 }
@@ -141,13 +163,14 @@ $(document).ready(function() {
 										reader.readAsDataURL(this.files[0]);
 									}
 								});
-					</script></div>
+					</script>
+					</div>
 					<div class="d-flex justify-content-end">
 					<input type="hidden" name="pageNo" value="${cri.pageNo}" />
 						<input type="hidden" name="amount" value="${cri.amount }" />
 							<input type="hidden" name="type" value="${cri.type }" />
 								<input type="hidden" name="keyword" value="${cri.keyword }" />
-			<button type="submit" class="btn btn-primary m-1">확인</button>
+			<button type="submit" class="btn btn-outline-success m-1" id="modifySubmitBtn">확인</button>
 			<c:url value="/restaurant/list" var="listLink">
 				<c:param name="pageNo" value="${cri.pageNo}" />
 				<c:param name="amount" value="${cri.amount }" />
@@ -155,7 +178,7 @@ $(document).ready(function() {
 				<c:param name="keyword" value="${cri.keyword }" />
 			</c:url>
 			<a href="${listLink }"><button type="button"
-					class="btn btn-secondary m-1">취소</button></a></div>
+					class="btn btn-outline-econdary m-1">취소</button></a></div>
 			</form>
 
 		</div>

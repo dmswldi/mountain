@@ -7,7 +7,7 @@
 	<sql id="Fcriteria">
 		<where>
 			<if test="keyword !=null">
-				eName LIKE '%' || #{keyword} || '%'
+				mname LIKE '%' || #{keyword} || '%'
 				OR description LIKE '%' || #{keyword} || '%'
 			</if>
 		</where>
@@ -25,14 +25,10 @@
 	<select id="getListPaging"
 		resultType="org.zerock.domain.festival.FestivalVO">
   <![CDATA[
-  SELECT no, ename, description, month, mountain_no  
-  FROM
-  (
-  SELECT 
-  ROW_NUMBER() OVER (ORDER BY no DESC) rn,
-  no, ename,description, month,mountain_no
-  FROM
-  festival
+  SELECT no, ename, description, month, mountain_no, mname FROM
+  (SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn,
+ no, ename, description, month, mountain_no, mname
+  FROM fes_view
   ]]>
 		<include refid="Fcriteria"></include>
   <![CDATA[
@@ -41,7 +37,9 @@
 		rn BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
 	]]>
 	</select>
-
+	<select id="mountainLoc" resultType="org.zerock.domain.mountain.MountainVO">
+		SELECT * FROM mountain WHERE mname = #{mname}
+	</select>
 
 	<!-- 게시글 작성 -->
 	<insert id="insert">
@@ -87,7 +85,7 @@
 	</delete>
 
 	<select id="getTotalCount" resultType="int">
-		SELECT count(*) FROM festival
+		SELECT count(*) FROM fes_view
 		<include refid="Fcriteria"></include>
 	</select>
 

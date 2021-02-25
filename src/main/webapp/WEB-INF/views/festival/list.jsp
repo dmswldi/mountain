@@ -63,6 +63,10 @@ $(document).ready(function() {
 		actionForm.submit();
 		
 		});*/
+		
+	#('a').on('click', function(e){
+		e.preventDefault();
+	});	
 	});
 
 </script>
@@ -73,17 +77,26 @@ $(document).ready(function() {
 <div class="container-sm">
 <div class="row">
  <div class="col-12 col-sm-6 offset-sm-3">
-			
+							<form action="${root }/festival/list" id="searchForm"
+					class="form-inline my-2 my-lg-0 d-flex bd-highlight mb-3">
+				<div class="d-flex p-1 bd-highlight align-items-center">
+						<input class="form-control" type="search"
+						name="keyword" value="${pageMaker.cri.keyword }" 
+						aria-label="Search" required="required"> <input
+						type="hidden" name="pageNum" value="1" /> <input type="hidden"
+						name="amount" value="${pageMaker.cri.amount }" />
+</div>
+					<button class="btn btn-outline-info"
+						type="submit">검색</button></form>
+						
 	 <table class="table table-striped table-hover">
-	 <h1>Board List Page</h1>
-	  
+		  
       <thead>
         <tr>
           <th>#No</th>
-          <th>#eName</th>
-          <th>#description</th>
-          <th>#Month</th>
-          <th>#Mountain_no</th>
+          <th>#축제 기간</th>
+          <th>#축제 이름</th>
+          <th>#산</th> 
         </tr>
       </thead>
       
@@ -92,34 +105,34 @@ $(document).ready(function() {
       <tbody>
         <c:forEach items="${list}" var="festivalVO">
           <tr>
-          <td>${festivalVO.no }</td>
-          <td>${festivalVO.ename }</td>
+        <td>${festivalVO.no }</td>
+         <!--  <td>${festivalVO.ename }</td> -->
+         
+         <td>${festivalVO.month }월</td>
+         
+        
           <td>
             <c:url value="/festival/get" var="festivalLink">
             <c:param value="${festivalVO.no }" name="no" />
+            <c:param value="${festivalVO.ename }" name="mname" />
              <c:param value="${pageMaker.cri.pageNum }" name="pageNum" />
              <c:param value="${pageMaker.cri.amount }" name="amount" />
              <c:param value="${pageMaker.cri.type }" name="type" />
              <c:param value="${pageMaker.cri.keyword }" name="keyword" />
             </c:url>
-          <a href="${festivalLink }"> <!-- link, var ==>href로 -->
-	           <c:out value="${festivalVO.description}" />
+           
+          <a href="${festivalLink }"> 
+	           <c:out value="${festivalVO.ename}" />
   			 </a>
   			 </td>
-          <td>${festivalVO.month }</td>
-          <td>${festivalVO.mountain_no }</td>
-
-          <!--  
-            <c:url value="/festival/get" var="festivalLink">
-            <c:param value="${pageMaker.cri.pageNum }" name="pageNum" />
-             <c:param value="${pageMaker.cri.amount }" name="amount" />
-             <c:param value="${pageMaker.cri.type }" name="type" />
-             <c:param value="${pageMaker.cri.keyword }" name="keyword" />
-            </c:url>
-            -->
+  			 
+           <td>${festivalVO.mname }</td> 
+           
             </tr>
         </c:forEach>
+                        
       </tbody>
+      <a href="/mountain/festival/register" class="btn btn-outline-success">게시물 작성</a>
     </table>				
 </div>
 </div>
@@ -188,11 +201,15 @@ $(document).ready(function() {
 			    	<%-- <a class="page-link" href="${nextLink }">Next</a> --%>
 		    		<a class="page-link" href="${pageMaker.endPage +1 }">Next</a>
 			    </li>
+			     
+			     
+          
+                 
+		
 		    </c:if>
 		  </ul>
 		</nav>
 	</div>
 </div>
-<c:remove var="result"/>
 </body>
 </html>

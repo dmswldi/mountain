@@ -22,12 +22,14 @@
 
 <title>Insert title here</title>
 <script>
+/*
 $(document).ready(function() {
 	$("#register-select1").change(function() {
 		var value = $('option:selected', this).attr("data-no")
 		$("#register-select2").val(value);
 	});
 });
+*/
 </script>
 </head>
 <body>
@@ -35,7 +37,7 @@ $(document).ready(function() {
 <div class="container-sm">
 		<div class="row">
 			<div class="col-12 col-sm-6 offset-sm-3">
-				<h1>Board Register</h1>
+				<h1>축제 등록</h1>
 			</div>
 		</div>
 		
@@ -43,9 +45,9 @@ $(document).ready(function() {
 			<div class="col-12 col-sm-6 offset-sm-3">
 			<form action="${root}/festival/register"  method="post" name="register" enctype="Multipart/form-data" >
                  
-                 <div class="form-group">
-               <label for="input1">산 이름 </label>
-               
+            <div class="form-group">
+               <label for="ename">축제이름 </label>
+               <input class="form-control" type="text" name="ename" id="ename" required>
                
             <!--   <select name="ename"
 							class="custom-select my-1 mr-sm-2 bd-highlight"
@@ -71,12 +73,8 @@ $(document).ready(function() {
   </div>
 </div>
  --%>		
- 
-<select name="ename" class="custom-select my-1 mr-sm-2 bd-highlight" id='register-select1'>
-  	<c:forEach items="${list}" var="MnameVO" >
-  		<option class="dropdown-item" value="${MnameVO.mname }" data-no="${MnameVO.no }"> ${MnameVO.mname }</option>
-    </c:forEach>
-</select>				
+
+
 						
 			 
         
@@ -130,19 +128,10 @@ $(document).ready(function() {
 						 <label for="input2">산 번호 </label>
 						<select name="mountain_no" class="custom-select my-1 mr-sm-2 bd-highlight" id="register-select2">
   	<c:forEach items="${list}" var="MnameVO">
-  		<option class="dropdown-item" value="${MnameVO.no}">${MnameVO.no}</option>
+  		<option class="dropdown-item" value="${MnameVO.no}">${MnameVO.mname}</option>
     </c:forEach>
 </select>	
-<!--  
-                   <div class="form-group">
-						<label for="input3">파일</label> <input name="file" type="file"
-						   accept="image/*"
-							class="form-control" id="input3">
-					</div>
 
-	-->
-				
-						
 		<%-- 		<c:forEach items="${list}" var="MnameVO">
          	 <tr>
           		<td>${MnameVO.no }</td> 

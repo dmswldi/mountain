@@ -53,6 +53,7 @@ public class MemberController {
 	@PostMapping("/join")
 	public String register(MemberVO member, HttpServletRequest req) {
 
+		log.info(member);
 		Map<String, Boolean> errors = new HashMap<String, Boolean>();
 		req.setAttribute("errors", errors);
 		validate(errors, member);
@@ -204,7 +205,7 @@ public class MemberController {
 		return "redirect:/index.jsp";
 	}
 
-	// ##joinErrors
+	// ##Errors
 	public void validate(Map<String, Boolean> errors, MemberVO member) {
 		checkEmpty(errors, member.getId(), "memberId");
 		checkEmpty(errors, member.getPassword(), "memberPw");
@@ -228,6 +229,11 @@ public class MemberController {
 
 		if (!pwRegex) {
 			errors.put("pwPatternError", true);
+		}
+		
+		// 주소값 @@@ 확인
+		if(member.getLoc().equals("@@@")) {
+			errors.put("memberLoc2", true);
 		}
 	}
 
@@ -275,63 +281,108 @@ public class MemberController {
 		return "/member/myModify";
 	}
 
-	// ##내 정보 수정 - POST
-	@PostMapping("/myModify")
-	public String myModify(MemberVO member, HttpSession session, HttpServletRequest req, RedirectAttributes rttr) {
+	// ##내 정보 수정 - POST - test
+		@PostMapping("/myModify")
+		public String myModify(MemberVO member, HttpSession session, HttpServletRequest req, RedirectAttributes rttr) {
 
-		if (session.getAttribute("authUser") != null) {
-			// 세션에 정보가 있을때만
-			Map<String, Boolean> errors = new HashMap<String, Boolean>();
-			req.setAttribute("errors", errors);
-			validate(errors, member);
+			if (session.getAttribute("authUser") != null) {
+				// 세션에 정보가 있을때만
+				 
+				MemberVO user = (MemberVO) session.getAttribute("authUser");
+				log.info("user:" + user);
+				log.info("member:" + member);
+				log.info("memberLoc:" + member.getLoc());
+				MemberVO findMember = service.getMemberId(user.getId());
 
-			MemberVO user = (MemberVO) session.getAttribute("authUser");
-			log.info(user);
-			log.info(service);
-			log.info(member);
-			log.info(member.getLoc());
-			MemberVO findMember = service.getMemberId(user.getId());
+				boolean checkMember = service.checkMember(findMember.getId(), member.getId());
+				// 같은 아이디인지 확인
 
-			boolean checkMember = service.checkMember(findMember.getId(), member.getId());
-			// 같은 아이디인지 확인
-
-			if (errors.isEmpty()) {
-				// 새롭게 set errors
-				// 에러가 없으면 수정 진행
 				if (checkMember) {
-
-					service.modify(member);
-					log.info("수정 서비스 실행)");
-					log.info(member);
-
-					session.setAttribute("authUser", member);
-					// 수정된 멤버 정보를 세션에 저장
-
-					MEmailDTO emailDTO = new MEmailDTO();
-					emailDTO.emailSplit(member.getEmail());
-					session.setAttribute("emailDTO", emailDTO);
-					// 수정된 이메일 정보를 세션에 저장
 					
-					MLocDTO locDiv = new MLocDTO();
-					locDiv.locSplit(member.getLoc());
-					session.setAttribute("locDiv", locDiv);
-					// 수정된 주소 정보 정보를 세션에 저장
-
-					return "/member/myHome";
-
-				}
+					Map<String, Boolean> errors = new HashMap<String, Boolean>();
+					req.setAttribute("errors", errors);
+					validate(errors, member);
+					
+						if(errors.isEmpty()) {
+							service.modify(member);
+							
+							log.info("수정 서비스 실행)");
+							log.info(member);
+	
+							session.setAttribute("authUser", member);
+							// 수정된 멤버 정보를 세션에 저장
+	
+							MEmailDTO emailDTO = new MEmailDTO();
+							emailDTO.emailSplit(member.getEmail());
+							session.setAttribute("emailDTO", emailDTO);
+							// 수정된 이메일 정보를 세션에 저장
+							
+							MLocDTO locDiv = new MLocDTO();
+							locDiv.locSplit(member.getLoc());
+							session.setAttribute("locDiv", locDiv);
+							// 수정된 주소 정보 정보를 세션에 저장
+	
+							return "/member/myHome";
+					} else {
+						log.info("수정 실패 errors");
+						log.info("errors" + errors);
+						return "/member/myModify";
+						
+					}
+				} return "redirect:/member/logout";
+			} else {
+				rttr.addFlashAttribute("notFoundUser", true);
+				// 세션에 로그인 정보가 없으면
+				return "redirect:/member/login";
+				
 			}
-		} else {
+		} 
+		
+				
+				
 
-			rttr.addFlashAttribute("notFoundUser", true);
-			// 세션에 로그인 정보가 없으면
-			return "redirect:/member/login";
-		}
-		log.info("수정 실패");
-		return "redirect:/index.jsp";
-		//혹시나 수정 실패시 홈으로 이동 
-	}
-
+	
+		/*
+		 * // ##내 정보 수정 - POST
+		 * 
+		 * @PostMapping("/myModify") public String myModify(MemberVO member, HttpSession
+		 * session, HttpServletRequest req, RedirectAttributes rttr) {
+		 * 
+		 * if (session.getAttribute("authUser") != null) { // 세션에 정보가 있을때만
+		 * 
+		 * MemberVO user = (MemberVO) session.getAttribute("authUser"); log.info("user:"
+		 * + user); log.info("member:" + member); log.info("memberLoc:" +
+		 * member.getLoc()); MemberVO findMember = service.getMemberId(user.getId());
+		 * 
+		 * boolean checkMember = service.checkMember(findMember.getId(),
+		 * member.getId()); // 같은 아이디인지 확인
+		 * 
+		 * if (checkMember) { // 새롭게 set errors // 에러가 없으면 수정 진행 //같은 아이디이면,
+		 * service.modify(member); log.info("수정 서비스 실행)"); log.info(member);
+		 * 
+		 * Map<String, Boolean> errors = new HashMap<String, Boolean>();
+		 * req.setAttribute("errors", errors); validate(errors, member);
+		 * 
+		 * if (errors.isEmpty()) { log.info("errors:" + errors);
+		 * session.setAttribute("authUser", member); // 수정된 멤버 정보를 세션에 저장
+		 * 
+		 * MEmailDTO emailDTO = new MEmailDTO(); emailDTO.emailSplit(member.getEmail());
+		 * session.setAttribute("emailDTO", emailDTO); // 수정된 이메일 정보를 세션에 저장
+		 * 
+		 * MLocDTO locDiv = new MLocDTO(); locDiv.locSplit(member.getLoc());
+		 * session.setAttribute("locDiv", locDiv); // 수정된 주소 정보 정보를 세션에 저장
+		 * 
+		 * return "/member/myHome";
+		 * 
+		 * } else { log.info("수정 실패 errors"); return "redirect:/member/myModify"; //혹시나
+		 * 수정 실패시 수정창으로 이동 } } } else {
+		 * 
+		 * rttr.addFlashAttribute("notFoundUser", true); // 세션에 로그인 정보가 없으면 return
+		 * "redirect:/member/login"; } log.info("수정 실패"); return
+		 * "redirect:/member/myModify"; //혹시나 수정 실패시 수정창으로 이동 }
+		 */
+		
+		
 	// ##회원 삭제
 	@DeleteMapping("/delete")
 	@ResponseBody

@@ -18,6 +18,7 @@
 <script
   src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
 
 <style>
 <%-- 적용 X
@@ -38,10 +39,6 @@
 </head>
 <body>
 <m:topNav />
-
-로그인 된 아이디 : ${authUser.id } <br>
-로그인 된 NO : ${authUser.no }
-		
 	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
 	  <div class="carousel-inner">
 	    <div class="carousel-item active">
@@ -49,24 +46,5 @@
 	    </div>
 	  </div>
 	</div>
-	
-	
-
-<m:mtList />
-	
-	
-<%-- 	
-	<jsp:include page="${root }/mountain/list.jsp" flush="true">
-	</jsp:include>
-	 --%>
-<!-- 	<div class="card" style="width: 18rem;">
-	  <img src="..." class="card-img-top" alt="...">
-	  <div class="card-body">
-	    <h5 class="card-title">산 이름</h5>
-	    <p class="card-text">산 정보</p>
-	    <a href="#" class="btn btn-primary">산 보기</a>
-	  </div>
-	</div>
- -->
 </body>
 </html>

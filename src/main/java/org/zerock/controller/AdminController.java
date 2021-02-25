@@ -102,7 +102,7 @@ public class AdminController {
 	    return "/admin/adminlist";
 		}
 	
-	@PostMapping(value="/adminchange", produces = "application/json")
+	@PostMapping(value="/adminchange")
 	public String adminChange(RedirectAttributes rttr, HttpSession session, @RequestParam(value="chbox[]") List<String> checkArr) {
 		MemberVO user = (MemberVO) session.getAttribute("authUser");
 		try {
@@ -128,7 +128,7 @@ public class AdminController {
 		return "redirect:/admin/adminlist";
 	}
 	
-	@PostMapping(value="/generalchange", produces = "application/json")
+	@PostMapping(value="/generalchange")
 	public String generalChange(RedirectAttributes rttr, HttpSession session, @RequestParam(value="chbox[]") List<String> checkArr) {
 		MemberVO user = (MemberVO) session.getAttribute("authUser");
 		log.info(checkArr);

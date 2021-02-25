@@ -13,7 +13,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="nav-link dropdown-item" data-href="${root }/notice/register">공지/이벤트</a>
-          <a class="nav-link dropdown-item" data-href="${root }/board/register">산정보</a>
+          <a class="nav-link dropdown-item" data-href="${root }/register">산정보</a>
           <a class="nav-link dropdown-item" data-href="${root }/festival/register">축제</a>
           <a class="nav-link dropdown-item" data-href="${root }/place/register">명소</a>
           <a class="nav-link dropdown-item" data-href="${root }/restaurant/register">맛집</a>
@@ -25,7 +25,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <a class="nav-link dropdown-item" data-href="${root }/notice/list">공지/이벤트</a>
-          <a class="nav-link dropdown-item" data-href="${root }/board/list">산정보</a>
+          <a class="nav-link dropdown-item" data-href="${root }/list">산정보</a>
           <a class="nav-link dropdown-item" data-href="${root }/festival/list">축제</a>
           <a class="nav-link dropdown-item" data-href="${root }/place/list">명소</a>
           <a class="nav-link dropdown-item" data-href="${root }/restaurant/list">맛집</a>

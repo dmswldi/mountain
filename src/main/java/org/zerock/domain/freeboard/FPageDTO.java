@@ -17,7 +17,7 @@ public class FPageDTO {
 	
 	private FCriteria cri;
 	
-	public FPageDTO(FCriteria cri, int total) { //Criteria안에는  amount, pageNum을 가지고있기때문에 ~
+	public FPageDTO(FCriteria cri, int total) { //FCriteria안에는  amount, pageNum을 가지고있기때문에 ~
 		this.cri = cri;
 		this.total = total;
 		

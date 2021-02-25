@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.festival.Fcriteria;
 import org.zerock.domain.festival.FestivalVO;
+import org.zerock.domain.mountain.MountainVO;
 import org.zerock.mapper.FestivalMapper;
 
 import lombok.AllArgsConstructor;
@@ -62,6 +63,11 @@ public class FestivalServiceImpl implements FestivalService{
 	public int getTotal(Fcriteria cri) {
 	
 		return mapper.getTotalCount(cri);
+	}
+
+	@Override
+	public MountainVO mountainLoc(String mname) {
+		return mapper.mountainLoc(mname);
 	}
 
 	

@@ -3,16 +3,67 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zerock.mapper.RestaurantMapper">
-<sql id = "mountain_no">
-SELECT no FROM mountain WHERE mname LIKE '%' || #{mname} || '%'
-</sql>
+	<sql id="mountain_no">
+		SELECT no FROM mountain WHERE mname LIKE '%' || #{mname} || '%'
+	</sql>
 
-<sql id="criteria">
+	<sql id="criteria">
 		<where>
+			<foreach item="type" collection="typeArr" separator="OR">
+				<choose>
+					<when test="type == 'M'.toString()">
+						mountain_no in (SELECT no FROM mountain WHERE mname LIKE '%' || #{keyword} ||
+						'%' OR mloc LIKE '%' || #{keyword} || '%')
+					</when>
+					<when test="type == 'N'.toString()">
+						rname LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="type == 'L'.toString()">
+						rloc LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="type == 'F'.toString()">
+						menu LIKE '%' || #{keyword} || '%'
+					</when>
+					<when test="type == 'D'.toString()">
+						description LIKE '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</foreach>
+		</where>
+	</sql>
+
+	<select id="getListPaging"
+		resultType="org.zerock.domain.restaurant.RestaurantVO">
+<![CDATA[SELECT no, mountain_no, rname, rloc, contact, menu, description, filename, likecnt, dislikecnt, mname
+FROM
+(SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, no, mountain_no, rname, rloc, contact, menu, description, filename,
+likecnt, dislikecnt, mname FROM res_view
+]]>
+		<include refid="criteria"></include>
+
+<![CDATA[
+)
+WHERE rn BETWEEN (#{pageNo} -1) * #{amount} + 1 AND #{pageNo} * #{amount}]]>
+	</select>
+
+	<select id="getListPaging2"
+		resultType="org.zerock.domain.restaurant.RestaurantVO">
+<![CDATA[
+SELECT no, mountain_no, rname, rloc, contact, menu, description, filename, likecnt, dislikecnt, mname, likeClick, dislikeClick
+FROM
+  (
+	SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, rv.no, rv.mountain_no, rv.rname, rv.rloc, rv.contact, rv.menu, rv.description,
+	rv.likecnt, rv.filename, rv.mname, rv.dislikecnt, nvl(rl.likeno, 0) likeClick, nvl(rl.dislikeno, 0) dislikeClick FROM
+	(SELECT r.no, r.mountain_no, r.rloc, r.rname, r.contact, r.menu, r.filename, m.mname, r.description, r.likecnt, r.dislikecnt FROM restaurant r, mountain m WHERE r.mountain_no = m.no) rv,
+	(SELECT resno, userno, likeno, dislikeno FROM res_like WHERE userno = #{userno, jdbcType=NUMERIC }) rl
+	WHERE rv.no = rl.resno(+)
+]]>
+<trim prefix="AND (" suffix=")">
 		<foreach item="type" collection="typeArr" separator="OR">
 			<choose>
 				<when test="type == 'M'.toString()">
-					mountain_no = (SELECT no FROM mountain WHERE mname LIKE '%' || #{keyword} || '%' OR mloc LIKE '%' || #{keyword} || '%')
+					mountain_no in (SELECT no FROM mountain WHERE mname LIKE '%' || #{keyword} ||
+					'%' OR mloc LIKE '%' || #{keyword} || '%')
 				</when>
 				<when test="type == 'N'.toString()">
 					rname LIKE '%' || #{keyword} || '%'
@@ -28,57 +79,60 @@ SELECT no FROM mountain WHERE mname LIKE '%' || #{mname} || '%'
 				</when>
 			</choose>
 		</foreach>
-	</where>
-</sql>
-
-<select id="getListPaging" resultType="org.zerock.domain.restaurant.RestaurantVO">
-<![CDATA[SELECT no, mountain_no, rname, rloc, contact, menu, description, filename, likecnt, dislikecnt, mname
-FROM
-(SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, no, mountain_no, rname, rloc, contact, menu, description, filename,
-likecnt, dislikecnt, mname FROM res_view
-]]>
-	 <include refid="criteria"></include>
-
+</trim>
 <![CDATA[
 )
-WHERE rn BETWEEN (#{pageNo} -1) * #{amount} + 1 AND #{pageNo} * #{amount}]]> 
-</select>
+WHERE rn BETWEEN (#{pageNo} -1) * #{amount} + 1 AND #{pageNo} * #{amount}]]>
 
-<select id="getList" resultType="org.zerock.domain.restaurant.RestaurantVO">
+	</select>
+
+	<select id="getList"
+		resultType="org.zerock.domain.restaurant.RestaurantVO">
 <![CDATA[SELECT*FROM restaurant WHERE no > 0]]>
-</select>
+	</select>
 
-<insert id="insertSelectKey">
-<selectKey keyProperty="no" order="BEFORE" resultType="long">
-select seq_restaurant.nextval from dual
-</selectKey>
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="no" order="BEFORE" resultType="long">
+			select seq_restaurant.nextval from dual
+		</selectKey>
 
-insert into restaurant (no, mountain_no, rname, rloc, contact, menu, description, filename)
-values (#{no}, (<include refid="mountain_no"></include>), #{rname}, #{rloc}, #{contact}, #{menu}, #{description}, #{filename})
-</insert>
+		insert into restaurant (no, mountain_no, rname, rloc, contact, menu,
+		description, filename)
+		values (#{no}, (
+		<include refid="mountain_no"></include>
+		), #{rname}, #{rloc}, #{contact}, #{menu}, #{description},
+		#{filename})
+	</insert>
 
-<delete id="delete">
-delete from restaurant where no = #{no}
-</delete>
+	<delete id="delete">
+		delete from restaurant where no = #{no}
+	</delete>
 
-<delete id="deleteLikeResno">
-      DELETE FROM res_like 
-      WHERE resno = #{resno}
-</delete>
+	<delete id="deleteLikeResno">
+		DELETE FROM res_like
+		WHERE resno = #{resno}
+	</delete>
 
-<update id="update">
-update restaurant set mountain_no= (<include refid="mountain_no"></include>), rname= #{rname}, rloc= #{rloc}, contact= #{contact}, menu= #{menu}, 
-description= #{description}, filename = #{filename} where no = #{no}
-</update>
+	<update id="update">
+		update restaurant set mountain_no= (
+		<include refid="mountain_no"></include>
+		), rname= #{rname}, rloc= #{rloc}, contact= #{contact}, menu= #{menu},
+		description= #{description}, filename = #{filename} where no = #{no}
+	</update>
 
-<select id="read" resultType="org.zerock.domain.restaurant.RestaurantVO">
-SELECT no, mountain_no, rname, rloc, contact, menu, description, filename, likecnt, dislikecnt, mname FROM
-(SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, no, mountain_no, rname, rloc, contact, menu, description, filename, likecnt, dislikecnt, mname FROM res_view)
-WHERE no = #{no}
-</select>
+	<select id="read"
+		resultType="org.zerock.domain.restaurant.RestaurantVO">
+		SELECT no, mountain_no, rname, rloc, contact, menu, description, filename,
+		likecnt, dislikecnt, mname FROM
+		(SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, no, mountain_no, rname,
+		rloc, contact, menu, description, filename, likecnt, dislikecnt, mname
+		FROM res_view)
+		WHERE no = #{no}
+	</select>
 
-<select id="getTotalCnt" resultType="int">
-	SELECT count(*) FROM res_view <include refid="criteria"></include>
-</select>
+	<select id="getTotalCnt" resultType="int">
+		SELECT count(*) FROM res_view
+		<include refid="criteria"></include>
+	</select>
 
 </mapper>

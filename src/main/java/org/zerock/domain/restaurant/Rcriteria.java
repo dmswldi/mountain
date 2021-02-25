@@ -12,9 +12,10 @@ public class Rcriteria {
 	private int amount;
 	private String type;
 	private String keyword;
+	private Long userno;
 
 	public Rcriteria() {
-		this(1, 5);
+		this(1, 4);
 	}
 
 	public Rcriteria(int pageNo, int amount) {

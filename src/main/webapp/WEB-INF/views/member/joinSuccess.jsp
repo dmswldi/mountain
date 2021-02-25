@@ -33,7 +33,7 @@
 	</div>
 
 	<a href="${root }/member/login">
-		<button type="submit" class="btn btn-primary">로그인</button>
+		<button type="submit" class="btn btn-success">로그인</button>
 	</a>
 
 </body>

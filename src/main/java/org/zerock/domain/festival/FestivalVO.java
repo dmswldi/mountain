@@ -11,7 +11,8 @@ public class FestivalVO {
 	private int month;
 	private int mountain_no;
 	private String filename;
-	
+	//private String fname;
+	private String mname;
 	
 	
 }

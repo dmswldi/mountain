@@ -16,5 +16,7 @@ public class RestaurantVO {
 	private String mname;
 	private Long likecnt;
 	private Long dislikecnt;
+	private Integer likeClick;
+	private Integer dislikeClick;
 
 }

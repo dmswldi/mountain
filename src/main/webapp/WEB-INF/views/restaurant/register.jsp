@@ -17,6 +17,8 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" src="${root }/resources/js/restaurant/maxlength.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
 <script type="text/javascript">
 $(document).ready(function() {
@@ -27,9 +29,30 @@ $(document).ready(function() {
 	
 	history.replaceState({}, null, null);
 	
+    $("#submitBtn").click(function byteMaxLengthCheck(){
+        if(!maxLengthCheck("input2", "상호", "45")){
+            return false;
+        }
+        if(!maxLengthCheck("input4", "연락처", "45")){
+            return false;
+        }
+        if(!maxLengthCheck("input5", "메뉴", "500")){
+            return false;
+        }
+        if(!maxLengthCheck("input6", "설명", "1000")){
+            return false;
+        }
+        if(!maxLengthCheck("file-img", "파일명", "175")){
+            return false;
+        }
+    });
+	
 });
 </script>
 <style type="text/css">
+.swal-title {
+  font-size: 20px;
+}
 .address-form #sample3_address {
 	width: 370px;
 }
@@ -105,14 +128,14 @@ $(document).ready(function() {
 					</div>
 					<div>
  <label for="file-img">이미지</label> 
- <input type="file" id="file-img" name="file" />
+ <input type="file" id="file-img" name="file" accept="png, jpeg, jpg"/>
  <div class="select_img my-2"><img src="" /></div> 
  <script> 
    $("#file-img").change(function(){
     if(this.files && this.files[0]) {
      var reader = new FileReader;
      reader.onload = function(data) {
-      $(".select_img img").attr("src", data.target.result).width(200);        
+      $(".select_img img").attr("src", data.target.result).width(200);    
      }
     reader.readAsDataURL(this.files[0]);
     }
@@ -120,7 +143,9 @@ $(document).ready(function() {
   </script> 
 </div>
 <div class="d-flex justify-content-end">
-					<button type="submit" class="btn btn-primary">등록</button></div>
+					<button type="submit" class="btn btn-outline-success" id="submitBtn">등록</button>
+					<a href="${root }/restaurant/list"><button type="button" class="btn btn-outline-secondary">취소</button></a>
+					</div>
 				</form>
 					</div>
 	</div>

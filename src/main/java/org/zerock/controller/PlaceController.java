@@ -18,7 +18,7 @@ import org.zerock.domain.member.MemberVO;
 import org.zerock.domain.place.Pcriteria;
 import org.zerock.domain.place.PlaceVO;
 import org.zerock.domain.place.PpageDTO;
-import org.zerock.service.place.PFileUpService;
+import org.zerock.service.file.FileUpService;
 import org.zerock.service.place.PlaceService;
 
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class PlaceController {
 	private PlaceService service;
-	private PFileUpService fileUpSvc;
+	private FileUpService fileUpSvc;
 
 	@GetMapping("/list")
 	public void list(Model model, @ModelAttribute("cri") Pcriteria cri) {
@@ -42,13 +42,14 @@ public class PlaceController {
 		model.addAttribute("page", dto);
 
 	}
-	
-	@GetMapping("/list2")
+
+	/* MOUNTAIN.get.jsp에서 ajax 사용 */
+	@PostMapping("/list2")
 	public ResponseEntity<List<PlaceVO>> list(Pcriteria cri){
 		List<PlaceVO> list = service.getList(cri);
 		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
-
+	
 	@PostMapping("/register")
 	public String register(PlaceVO place, MultipartFile file, RedirectAttributes rttr, HttpSession session) throws Exception {
 		
@@ -57,7 +58,7 @@ public class PlaceController {
 		place.setFilename("");
 		if (user.getManager() == 1) {
 			service.register(place);
-			if(file != null) {
+			if(file != null  && file.getSize() > 0) {
 				place.setFilename("place_"+place.getNo()+"_"+file.getOriginalFilename());
 				service.modify(place);
 				try {

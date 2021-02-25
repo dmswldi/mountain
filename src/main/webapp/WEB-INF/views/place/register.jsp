@@ -16,6 +16,8 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${root }/resources/js/place/maxlength.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
 <script type="text/javascript">
@@ -27,6 +29,20 @@ $(document).ready(function() {
 	
 	history.replaceState({}, null, null);
 	
+    $("#submitBtn").click(function byteMaxLengthCheck(){
+        if(!maxLengthCheck("input2", "명소", "45")){
+            return false;
+        }
+        if(!maxLengthCheck("input3", "주소", "200")){
+            return false;
+        }
+        if(!maxLengthCheck("input4", "설명", "1000")){
+            return false;
+        }
+        if(!maxLengthCheck("file-img", "파일명", "175")){
+            return false;
+        }
+    });
 });
 
 
@@ -90,7 +106,9 @@ $(document).ready(function() {
 </div>
 <div class="d-flex justify-content-end">
 
-					<button type="submit" class="btn btn-primary" onclick="">등록</button></div>
+					<button type="submit" class="btn btn-outline-success" id="submitBtn">등록</button>
+					<button type="button" class="btn btn-outline-secondary">취소</button>
+					</div>
 				</form>
 					</div>
 	</div>

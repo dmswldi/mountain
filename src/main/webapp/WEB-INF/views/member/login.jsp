@@ -26,13 +26,10 @@
 
 <m:topNav />
 
-로그인 된 아이디 : ${authUser.id } <br>
-로그인 된 NO : ${authUser.no }
-
 <div class="container-sm">
 	<div class="row">
 		<div class="col-12 col-sm-6 offset-sm-3">
-			<h3 class="text-center pt-5 pb-4">회원 가입</h3>
+			<h3 class="text-center pt-5 pb-4">로그인</h3>
 			<form name="loginForm">
 				<c:if test="${notFoundUser }">
 				<small class="form-text" style="color: tomato" >
@@ -59,7 +56,7 @@
 						</small>
 					</div>
 				</div>
-				<button class="btn btn-primary" id="loginButton" >로그인</button>
+				<button class="btn btn-success" id="loginButton" >로그인</button>
 			</form>
 		</div>
 	</div>

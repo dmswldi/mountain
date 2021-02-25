@@ -24,12 +24,15 @@ public class WishController {
 	private WishService service;
 	
 	// ##찜 등록
-	@PostMapping("register.do")
-	public void register(WishVO wish) {
+	@PostMapping("register")
+	public String register(WishVO wish) {
 		
+	log.info(wish.getMember_no());
+	log.info(wish.getMountain_no());
 	service.register(wish);
 	log.info("찜성공");
 	
+	return "mountain/list";
 	//찜등록은 되나 register.jsp를 찾음 왜 찾는거야 정말!
 	
 	

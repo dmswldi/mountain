@@ -20,8 +20,8 @@ public class PpageDTO {
 		this.cri = cri;
 		this.total = total;
 		
-		this.endPage = (int) Math.ceil(cri.getPageNo() / 5.0) * 5;
-		this.startPage = endPage - 4;
+		this.endPage = (int) Math.ceil(cri.getPageNo() / 4.0) * 4;
+		this.startPage = endPage - 3;
 		
 		int realEnd = (int) Math.ceil(total * 1.0 / cri.getAmount());
 		
