@@ -29,7 +29,13 @@ $(function(){
 		}
 	});
 	
-	
+	/*
+	$('#sample3_address').mouseenter(function(){
+		if(event.keyCode == 13){
+			$('#input3').trigger('click');
+		}
+	});
+	*/
 		
 	
 });

@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.festival.Fcriteria;
 import org.zerock.domain.festival.FestivalVO;
 import org.zerock.domain.festival.FpageDTO;
-import org.zerock.domain.member.MemberVO;
+import org.zerock.domain.mountain.MnameVO;
 import org.zerock.service.festival.FestivalService;
 import org.zerock.service.festival.fFileUpService;
 import org.zerock.service.mountain.MountainService;
-import org.zerock.domain.mountain.MnameVO;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -37,6 +37,12 @@ public class FestivalController {
 	private MountainService mountainService;
 	private fFileUpService fileUpSvc;
 	
+	@RequestMapping("/list2")
+	@ResponseBody
+	public List<FestivalVO> list() {
+	      List<FestivalVO> list = new ArrayList<>();
+	      return list ;
+	}
 	
 	// 등록
 	@PostMapping("/register")

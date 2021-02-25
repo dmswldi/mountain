@@ -17,6 +17,7 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/font.css">
 <link rel="stylesheet" type="text/css" href="${root }/resources/css/mountain/get.css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f305c38652574a2f8f3608a03cc3c736"></script>
 <script>
 var root = '${root}';
 var result = '${result}';
@@ -95,9 +96,29 @@ var staticPath = '${staticPath}';
 					    <textarea class="form-control" name="description" id="description" rows="3" required readonly>${mountain.description }</textarea>					
 					</div>
 					
-					<div class="form-group mt-4 d-flex align-items-center">
+					<div class="form-group mt-4 d-flex align-items-center" id="mlocation">
 						<img alt="map_icon" src="${root }/resources/img/mountain/location.png"> <br>
-						<input type="text" class="form-control" name="mloc" id="mloc" value="${mountain.mloc }" required readonly>
+						<input type="text" class="form-control" id="mloc" value="${mountain.mloc }" readonly>
+					</div>
+					
+					<div class="form-group address-form">
+						<label for="sample3_address">위치</label>
+						<p class="d-flex">
+							<input type="hidden" id="sample3_postcode" placeholder="우편번호">
+							<input type="text" class="form-control" name="mloc" value="${mountain.mloc }" id="sample3_address" 
+								required placeholder="주소를 작성하세요" style="width: 100%;">
+							<input type="hidden" id="sample3_detailAddress" placeholder="상세주소">
+							<input type="hidden" id="sample3_extraAddress" placeholder="참고항목">
+							<input type="button" class="btn" onclick="sample3_execDaumPostcode()" value="주소찾기" id="input3">
+						</p>
+						<div id="wrap" style="display: none; border: 1px solid; width: 500px; height: 300px; margin: 5px 0; position: relative">
+							<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap"
+								style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
+								onclick="foldDaumPostcode()" alt="접기 버튼">
+						</div>
+						<script
+							src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+						<script type="text/javascript" src="${root }/resources/js/restaurant/addressAPI.js"></script>
 					</div>
 	
 					<div id="upload"  class="form-group">
@@ -111,7 +132,8 @@ var staticPath = '${staticPath}';
 				</div>	
 				
 				<%-- for other tab : 맛집, 축제, 명소 등 --%>
-				<n:nav_restaurant></n:nav_restaurant>
+<%-- 				<n:nav_map></n:nav_map> --%>
+				<div id="nav_contents"></div>
 				
 			</form>
 			

@@ -1,5 +1,25 @@
 @charset "UTF-8";
 
+.card img {
+	height: 300px;
+    overflow: hidden;
+    object-fit: cover;
+}
+
+.card-body {
+	height: 200px;	
+}
+
+.card-body a {
+	height: 27%;
+	display: block;
+}
+
+.card-body div {
+	height: 73%;
+	padding: 10px;
+}
+
 #search input {
 	width: 45%;
 	display: inline-block;

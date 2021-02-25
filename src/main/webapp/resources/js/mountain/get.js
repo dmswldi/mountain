@@ -121,6 +121,9 @@ $(function(){
 	$('#statusForm').hide();
 
 	$('#upload').hide();
+	$('.address-form').hide();
+	$('#mlocation').show();
+	
 
 	/* 수정 버튼 클릭 */
 	$('#modifyBtn').click(function(){// 입산여부도 수정하자!
@@ -137,6 +140,9 @@ $(function(){
 		$('#statusForm').show();
 		
 		$('#upload').show();
+		$('.address-form').show();
+		$('#mlocation').hide();// 왜 안 돼??
+		$('#mlocation').children().hide();
 		
 		$('#mname').css('border', '1px solid #ced4da');
 		$('#height').css('border', '1px solid #ced4da');
@@ -161,9 +167,18 @@ $(function(){
 	
 	/* navigation */
 	
+	$('#mini_nav .nav-link').click(function(){
+		$('.nav-link').removeClass('active');
+		$(this).addClass('active');
+	});
+	
 	/* .nav_body에 #nav_~ 넣기 */
 	
+	$('#nav_contents').hide();
+	
 	$('.nav #link1').click(function(){
+		$('#nav_contents').empty();
+	
 		$('.nav_body').hide();
 		$('#modifyBtn').show();
 		$('#removeBtn').show();
@@ -173,7 +188,7 @@ $(function(){
 	$('.nav #link2').click(function(){
 		$('.nav_body').hide();
 		$('#listBtn').siblings('.btn').hide();
-		$('#nav_restaurant').show();
+		$('#nav_contents').show();
 		
 		/* ajax:restaurant */
 		$.ajax(root + '/restaurant/list2', {
@@ -181,18 +196,16 @@ $(function(){
 			data: {type: "M", keyword: curMname} /* 알아서 쿼리스트링 붙음 */
 		}).done(function(data){
 			//console.log(data);
-			$('#nav_restaurant').empty();
+			$('#nav_contents').empty();
 			
 			$(data).each(function(index, element) {// index 0 ~
-				//$('#nav_restaurant').append('index: '+ index + ', element: ' + element.rname + '<br>');
+				//$('#nav_contents').append('index: '+ index + ', element: ' + element.rname + '<br>');
 				
-				// 좋아요 안 눌림
-		
-
-				$('#nav_restaurant').append(
+				$('#nav_contents').append(
 					'<div class="col-sm-6">'
 					+	'<div class="card mb-3">'
-					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid">'
+					+		'<input type="hidden" value="' + element.no + '" id="rno">'
+					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid" style="height:300px; object-fit:cover; overflow:hidden;">'
 					+		'<div class="card-body">'
 					+			'<h5 class="card-title"><b>' + element.rname + '</b></h5>'
 					+			'<p class="card-text">' + element.mname + '</p>'
@@ -203,9 +216,9 @@ $(function(){
 					+				'<br>전화 : ' +  element.contact + '</small><br>'
 					+			'</p>'
 					+			'<div class="d-flex justify-content-end align-items-center mb-1 likeDislike">'
-					+				'<img data-resNo="' + element.no + '" id="like-img' + index+1 + '" src="' + root + '/resources/img/like/like_empty2.png" width="25px" height="25px">'
+					+				'<button style="border:none;"><img data-resNo="' + element.no + '" id="like-img' + index+1 + '" src="' + root + '/resources/img/like/like_empty2.png" width="25px" height="25px"></button>'
 					+				'<span>&nbsp;' +  element.likecnt + '&nbsp;</span>'
-					+				'<img data-resNo="' + element.no + '" id="dislike-img' + index+1 + '" src="' + root + '/resources/img/like/dislike_empty.png" width="25px" height="25px">'
+					+				'<button style="border:none;"><img data-resNo="' + element.no + '" id="dislike-img' + index+1 + '" src="' + root + '/resources/img/like/dislike_empty.png" width="25px" height="25px"></button>'
 					+				'<span>&nbsp;' + element.dislikecnt + '</span>'
 					+			'</div>'
 					+		'</div>'
@@ -213,14 +226,20 @@ $(function(){
 					+'</div>'
 				);
 				
+				/*
+				$('#nav_contents div').last().find('img').click(function() {
+					$(this).siblings('.btn1').toggle(10);
+				});
+				*/
+				
 			});
 			
 			if(data.length == 0) {
-				$('#nav_restaurant').append("등록된 맛집이 없습니다.");
-				$('#nav_restaurant').wrapInner('<div class="row mt-3 ml-5" />');
+				$('#nav_contents').append("등록된 맛집이 없습니다.");
+				$('#nav_contents').wrapInner('<div class="row mt-3 ml-5" />');
 			} else {
 				// 닫는 태그 자동 추가 방지
-				$('#nav_restaurant').wrapInner('<div class="row mt-5" />');
+				$('#nav_contents').wrapInner('<div class="row mt-5" />');
 			}
 			
 		});
@@ -229,15 +248,50 @@ $(function(){
 	$('.nav #link3').click(function(){
 		$('.nav_body').hide();
 		$('#listBtn').siblings('.btn').hide();
-		$('#nav_festival').show();
+		$('#nav_contents').show();
 		
 		/* ajax:festival */
+		$.ajax(root + '/festival/list', {////////////////// 만들어야 돼! 페스티벌 컨트롤러에!
+			dataType: 'json',
+			data: {type: "M", keyword: curMname}
+		}).done(function(data){
+			//console.log(data);
+			$('#nav_contents').empty();
+			
+			$(data).each(function(index, element) {
+				//$('#nav_contents').append('index: '+ index + ', element: ' + element.pname + '<br>');
+			
+				$('#nav_contents').append(
+					'<div class="col-sm-6">'
+					+	'<div class="card mb-3">'
+					+		'<div class="card-body">'
+					+			'<h5 class="card-title"><b>' + element.ename + '</b></h5>'
+					+			'<p class="card-text">' + element.mname + '</p>'
+					+			'<p class="card-text">' + element.month + '</p>'
+					+			'<p class="card-text">'
+					+				'<small class="text-muted">' + element.description + '</small>'
+					+			'</p>'
+					+		'</div>'
+					+	'</div>'
+					+'</div>'
+				);
+			});
+		
+			if(data.length == 0) {
+				$('#nav_contents').append("등록된 축제가 없습니다.");
+				$('#nav_contents').wrapInner('<div class="row mt-3 ml-5" />');
+			} else {
+				// 닫는 태그 자동 추가 방지
+				$('#nav_contents').wrapInner('<div class="row mt-5" />');
+			}
+		
+		});
 	});
 	
 	$('.nav #link4').click(function(){
 		$('.nav_body').hide();
 		$('#listBtn').siblings('.btn').hide();
-		$('#nav_place').show();
+		$('#nav_contents').show();
 		
 		/* ajax:place */
 		$.ajax(root + '/place/list2', {
@@ -245,13 +299,15 @@ $(function(){
 			data: {type: "M", keyword: curMname}
 		}).done(function(data){
 			//console.log(data);
-			$('#nav_place').empty();
+			$('#nav_contents').empty();
 			
-			$.each(function(index, element){
-				$('#nav_place').append(
+			$(data).each(function(index, element) {
+				//$('#nav_contents').append('index: '+ index + ', element: ' + element.pname + '<br>');
+			
+				$('#nav_contents').append(
 					'<div class="col-sm-6">'
 					+	'<div class="card mb-3">'
-					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid">'
+					+		'<img src="' + staticPath + '/' + element.filename + '" class="card-img-top img-fluid" style="height:300px; object-fit:cover; overflow:hidden;">'
 					+		'<div class="card-body">'
 					+			'<h5 class="card-title"><b>' + element.pname + '</b></h5>'
 					+			'<p class="card-text">' + element.mname + '</p>'
@@ -266,11 +322,11 @@ $(function(){
 			});
 		
 			if(data.length == 0) {
-				$('#nav_place').append("등록된 명소가 없습니다.");
-				$('#nav_place').wrapInner('<div class="row mt-3 ml-5" />');
+				$('#nav_contents').append("등록된 명소가 없습니다.");
+				$('#nav_contents').wrapInner('<div class="row mt-3 ml-5" />');
 			} else {
 				// 닫는 태그 자동 추가 방지
-				$('#nav_place').wrapInner('<div class="row mt-5" />');
+				$('#nav_contents').wrapInner('<div class="row mt-5" />');
 			}
 		
 		});
@@ -282,7 +338,21 @@ $(function(){
 		$('#nav_map').show();
 		
 		/* ajax:map api */
+		var options = { //지도를 생성할 때 필요한 기본 옵션
+			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+			level: 3 //지도의 레벨(확대, 축소 정도)
+		};
+		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+		
+		
+		
 	});
+	
+	
+	$(window).on("mounseover", "img", function(){
+						$(this).hover('background-color', 'red');
+						//$(this).css('background-color', 'red');
+				});
 	
 	
 });

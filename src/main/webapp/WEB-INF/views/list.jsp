@@ -33,10 +33,10 @@ var root = '${root}';
 
 <div class="container-fluid my-5">
 	<div class="row d-block">
-		<div class="col-12 col-md-8 offset-md-2 table-responsive">  
-      		<h3 class="text-center">산산산들</h3>
+		<div class="col-12 col-md-8 offset-md-2">  
+      		<h3 class="text-center">산</h3>
       		<br>
-      		<form id="search" class="d-flex justify-content-end align-items-center">
+      		<form id="search" class="d-flex justify-content-end align-items-center mt-3">
       			<input class="form-control mr-sm-1" type="search" name="keyword" value="${pages.cri.keyword }" placeholder="Search">
 		    	<button class="btn btn-outline-success my-2 mr-5"><i class="fas fa-search"></i></button>
 		    	<a href="${root }/register" id="newMountain" class="btn btn-outline-success ml-5">산 등록</a>
@@ -48,7 +48,7 @@ var root = '${root}';
 					<div class="row">
 	          	</c:if>
 			
-	        	<div class="col-xs-12 col-sm-6 col-lg-4" style="border: 1px solid red; padding: 1.25rem;"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
+	        	<div class="card col-xs-12 col-sm-6 col-lg-4 mt-4"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
 					<div class="card h-100">
 					
 					 <%--
@@ -65,16 +65,18 @@ var root = '${root}';
 						</c:choose>
 	                 	<img src="${src }" class="card-img-top" alt="${mountain.filename }">	
 	                 		
-	                 	<div class="card-body">
-	                 		<h4 class="card-title">${mountain.mname }</h4>
-	                 		<p class="card-text">${mountain.mloc }에 있는 해발고도 ${mountain.height }m의 산</p>
+	                 	<div class="card-body h-100">
+	                 		<div>
+		                 		<h4 class="card-title">${mountain.mname }</h4>
+		                 		<p class="card-text">${mountain.mloc }</p>
+	                 		</div>
 	                 		<c:url var="getUrl" value="/get">
 				    		  <c:param name="no">${mountain.no}</c:param>
 				    		  <c:param name="curPage">${cri.curPage }</c:param>
 				    		  <c:param name="amount">${cri.amount }</c:param>
 				    		  <c:param name="keyword">${cri.keyword }</c:param>
 				    	    </c:url>
-	                		<a href="${getUrl }" class="btn btn-success">Go Into Detail</a>
+	                		<a href="${getUrl }" class="btn btn-success float-right"><i class="fas fa-sign-in-alt"></i></a>
 	               		</div>
 	             	</div>
 	        	</div>
@@ -88,7 +90,7 @@ var root = '${root}';
 	
 	
 	<!-- 페이지네이션 처리 -->
-	<div class="row justify-content-center">
+	<div class="row justify-content-center mt-4">
 		<nav aria-label="Page navigation example">
 		  <ul class="pagination justify-content-center">
 		    <c:if test="${not pages.prev }"><c:set var="prevDisabled" value="disabled" /></c:if> <%-- disabled -> hidden --%>

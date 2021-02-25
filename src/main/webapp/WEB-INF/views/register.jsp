@@ -36,9 +36,23 @@ var result = '${result}';
 					<small class="text-success">공백 없이 한글을 이용하여 ~산으로 끝나게 작성해주세요.</small>
 				</div>
 
-				<div class="form-group">
-					<label for="mloc">위치</label>
-					<input type="text" class="form-control" name="mloc" id="mloc" value="${mountain.mloc }" required placeholder="산 위치를 입력하세요">
+				<div class="form-group address-form">
+						<label for="sample3_address">위치</label>
+						<p class="d-flex">
+							<input type="hidden" id="sample3_postcode" placeholder="우편번호">
+							<input type="text" class="form-control" name="mloc" id="sample3_address" required placeholder="주소를 작성하세요" style="width: 100%;" required>
+							<input type="hidden" id="sample3_detailAddress" placeholder="상세주소">
+							<input type="hidden" id="sample3_extraAddress" placeholder="참고항목">
+							<input type="button" class="btn" onclick="sample3_execDaumPostcode()" value="주소찾기" id="input3">
+						</p>
+						<div id="wrap" style="display: none; border: 1px solid; width: 500px; height: 300px; margin: 5px 0; position: relative">
+							<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap"
+								style="cursor: pointer; position: absolute; right: 0px; top: -1px; z-index: 1"
+								onclick="foldDaumPostcode()" alt="접기 버튼">
+						</div>
+						<script
+							src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+						<script type="text/javascript" src="${root }/resources/js/restaurant/addressAPI.js"></script>
 				</div>
 
 				<div class="form-group">

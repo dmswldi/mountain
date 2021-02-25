@@ -36,3 +36,7 @@
 #mini_nav a:hover {
 	cursor: pointer;
 }
+
+#mini_nav a {
+	font-weight: bold; 
+}
