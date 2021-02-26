@@ -9,4 +9,5 @@ public class LikeVO {
 	private Long dislikeno;
 	private Long userno;
 	private Long resno;
+	
 }

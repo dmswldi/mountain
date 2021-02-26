@@ -39,7 +39,7 @@ text-align: right;
       <div class="col-12 col-md-8 offset-md-2 table-responsive"> 
 
 	<section>
- 		<div class="mt-2" id="container_box"> 
+ 		<div id="container_box"> 
 		<iframe src="" id="iframe-link" width="100%" height="900px" 
 		frameborder="0" framespacing="0" marginheight="0" marginwidth="0" vspace="0"></iframe>
 

@@ -44,6 +44,7 @@ public class FestivalController {
 	      return list;
 	}
 	
+	
 	// 등록
 	@PostMapping("/register")
 	public String register(FestivalVO festival,@RequestParam String mountain_no, RedirectAttributes rttr, MultipartFile file) {
@@ -134,10 +135,10 @@ public class FestivalController {
 	
 	// get => no/ modify
 		@GetMapping({"/get", "/modify"})
-		public void get(@RequestParam("no") int no, @RequestParam String mname, Model model,@ModelAttribute("cri")Fcriteria cri) {
+		public void get(@RequestParam("no") int no, @RequestParam Long mountain_no, Model model,@ModelAttribute("cri")Fcriteria cri) {
 			log.info("/get or modify");
-			MountainVO mvo = service.mountainLoc(mname);
-			//MountainVO mvo = service.mountainLoc(mloc);
+			MountainVO mvo = service.mountainLoc(mountain_no);
+//			MountainVO mvo2 = service.mountainLoc(mloc);
 			FestivalVO vo =service.get(no);	
 			//service.get(no)
 			model.addAttribute("festival",vo);

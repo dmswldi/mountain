@@ -35,7 +35,7 @@ public interface FestivalMapper {
 
 	public int getTotalCount(Fcriteria cri);
 
-	public MountainVO mountainLoc(String mname);
+	public MountainVO mountainLoc(Long mountain_no);
 
 	
 	

@@ -64,9 +64,10 @@ $(document).ready(function() {
 		
 		});*/
 		
-	#('a').on('click', function(e){
+	
+	/* $("a").on('click', function(e){
 		e.preventDefault();
-	});	
+	});	 */
 	});
 
 </script>
@@ -114,7 +115,7 @@ $(document).ready(function() {
           <td>
             <c:url value="/festival/get" var="festivalLink">
             <c:param value="${festivalVO.no }" name="no" />
-            <c:param value="${festivalVO.ename }" name="mname" />
+            <c:param value="${festivalVO.mountain_no }" name="mountain_no" />
              <c:param value="${pageMaker.cri.pageNum }" name="pageNum" />
              <c:param value="${pageMaker.cri.amount }" name="amount" />
              <c:param value="${pageMaker.cri.type }" name="type" />

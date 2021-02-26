@@ -66,8 +66,8 @@ public class FestivalServiceImpl implements FestivalService{
 	}
 
 	@Override
-	public MountainVO mountainLoc(String mname) {
-		return mapper.mountainLoc(mname);
+	public MountainVO mountainLoc(Long mountain_no) {
+		return mapper.mountainLoc(mountain_no);
 	}
 
 	

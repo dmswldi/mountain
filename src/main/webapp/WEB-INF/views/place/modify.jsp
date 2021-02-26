@@ -65,13 +65,18 @@ $(document).ready(function() {
 .select_img img {
 	width: 200px;
 }
+h3 {
+ margin-top: 20px;
+ text-align: center;
+ margin-bottom: 35px;
+}
 </style>
 <title>Insert title here</title>
 </head>
 <body>
 	<u:topNav/>
 	<div class="container-sm">
-
+		<h3>명소게시판 수정</h3>
 		<div class="row">
 			<div class="col-12 col-sm-6 offset-sm-3">
 

@@ -63,11 +63,11 @@ var no = ${festival.no};
 				
 				
 				
-				<!-- 2021.02.23 추가-->
+				<!-- 2021.02.23 추가
 					<div>
 				<img alt="" class="img-fluid"src="/static/${festival.filename}">
 				</div>
-				
+				-->
 				
 				<div class="form-group">
 					<label for="input2">축제 설명</label> <input readonly
@@ -89,7 +89,7 @@ var no = ${festival.no};
 				
 				<c:url value="/festival/modify" var="modifyLink">
 				<c:param name="no" value="${festival.no }"></c:param>
-				<c:param name="mname" value="${festival.ename }"></c:param>
+				<c:param value="${festivalVO.mountain_no }" name="mountain_no" />
 				<c:param name="pageNum" value="${cri.pageNum }"></c:param>
 				<c:param name="amount" value="${cri.amount }"></c:param>
 				</c:url>

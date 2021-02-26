@@ -37,6 +37,10 @@
             <li class="nav-item">
         <a class="nav-link" data-href="${root }/admin/adminlist" role="button">관리자 정보</a>
       </li>
+            <li class="nav-item">
+        <a class="nav-link" href="${root }/index.jsp" role="button">메인페이지</a>
+        <!-- style="vertical-align: middle; padding-top: 5;" -->
+      </li>
     </ul>
     <div class="ml-auto mt-auto">
     	<span style="font-size: small;">총 방문자 : ${total }&nbsp;&nbsp;오늘 방문자 : ${today }&nbsp;&nbsp;총 회원수 : ${memberCnt }</span>

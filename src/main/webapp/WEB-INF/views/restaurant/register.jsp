@@ -65,13 +65,18 @@ $(document).ready(function() {
 	width: 350px;
 	height: 450px;
 }
+h3 {
+ margin-top: 20px;
+ text-align: center;
+ margin-bottom: 35px;
+}
 </style>
 <title>산산산</title>
 </head>
 <body>
 			<u:topNav/>
 	<div class="container-sm">
-
+		<h3>맛집게시판 등록</h3>
 		<div class="row">
 			<div class="col-12 col-sm-6 offset-sm-3">
 				<form action="${root }/restaurant/register" method="post" name="register" enctype="multipart/form-data" id="restaurantRegisterForm">

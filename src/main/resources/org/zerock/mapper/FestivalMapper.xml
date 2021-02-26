@@ -38,7 +38,7 @@
 	]]>
 	</select>
 	<select id="mountainLoc" resultType="org.zerock.domain.mountain.MountainVO">
-		SELECT * FROM mountain WHERE mname = #{mname}
+		SELECT * FROM mountain WHERE no = #{mountain_no}
 	</select>
 
 	<!-- 게시글 작성 -->

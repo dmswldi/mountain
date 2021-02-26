@@ -252,10 +252,7 @@ $(function(){
 	});
 	
 	/* 동적 태그 이벤트 생성존 */
-	// 좋아요 올린 다음에 (like만 다녀와서) 편법으로 +1, -1
 	$(document).on('click', '#nav_contents .likeDislike img', function() {
-		//console.log('좋아요, ' + $(this).attr("id"));
-		
         if(userno == '') {
         	swal({
 			  	title: "Not Allowed",
@@ -265,75 +262,32 @@ $(function(){
 			});
 			return ;	
 		}
+	   
+       if($(this).attr("id").startsWith('like')){// 좋아요 누르면
+	       var likeno = 1;
+		   var dislikeno = 0;
+        
+       } else {// 싫어요 누르면
+       	   var likeno = 0;
+		   var dislikeno = 1;
+       }
        
-        var curlike;// 내 기록
-        var curDislike;
-        var resno = $(this).closest('.card').find('input').val();
-        var allLike;// 전체 기록
-        var allDislike;
-        
-        if($(this).attr("id").startsWith('like')){// 좋아요 누르면
-        	var item = $(this).closest('.card');
-        	curlike = item.find('#likeno');
-        	curDislike = item.find('#dislikeno');
-       										 console.log('cur: like' + curlike.val() + ', dislike' + curDislike.val());
-        	allLike = $(this).siblings('.like');
-        	allDislike = $(this).siblings('.dislike');
-        									console.log('all: like' + allLike.html() + ', dislike' + allDislike.html());
-        	if(curlike >= 1) {// 현재: 좋아요
-        		return ;
-        	} else {
-	        	if(curDislike >= 1) {// 현재: 싫어요
-	        		allDislike.html(Number(allDislike.html())-1);// 싫어요 없애고
-	        		curDislike.val(Number(curDislike.val())-1);// 나도 같이 바꿔야지...!!!!! 보이는 것만 바꾸지 말고!
-	        	
-	        	} 
-	        	// + 아무것도 안 누른 상태
-	        	allLike.html(Number(allLike.html())+1);
-	        	curlike.val(Number(curlike.val())+1);// 나
-
-	        	likeno = 1;
-	        	dislikeno = 0;
-	        	
-				$(this).attr('src', root + '/resources/img/like/like_full.png');
-				$(this).siblings('#dislike-img').attr('src', root + '/resources/img/like/dislike_empty.png');
-	        	
-	        }
-        	
-        } else {// 싫어요 누르면
-        	var item = $(this).closest('.card');
-        	curlike = item.find('#likeno');
-        	curDislike = item.find('#dislikeno');
-       										console.log('cur: like' + curlike + ', dislike' + curDislike); 	
-        	allLike = $(this).siblings('.like');
-        	allDislike = $(this).siblings('.dislike');
-        									console.log('all: like' + allLike.html() + ', dislike' + allDislike.html());	
-        	if(curDislike >= 1) {// 현재: 싫어요
-        		return ;
-        	} else {
-	        	if(curlike >= 1) {// 현재: 좋아요
-	        		allLike.html(Number(allLike.html())-1);
-	        		curlike.val(Number(curlike.val())-1);// 나
-	        	}
-	        	// + 아무것도 안 누른 상태
-		        	allDislike.html(Number(allDislike.html())+1); 
-		        	curDislike.val(Number(curDislike.val())+1);// 나 	
-	
-		        	likeno = 0;
-		        	dislikeno = 1;
-		        	
-					$(this).siblings('#like-img').attr('src', root + '/resources/img/like/like_empty2.png');
-					$(this).attr('src', root + '/resources/img/like/dislike_full.png');
-			}		
-        }
-        
-        
+       var resno = $(this).closest('.card').find('input').val();
+  /*     var data = {
+       		var like = {"likeno": likeno, "dislikeno": dislikeno, "userno": userno, "resno": resno},
+       		var mno = mno
+       };
         $.ajax(root + '/restaurant/like2', {
 			type: 'post',
 			dataType: 'json',
 			data: {likeno: likeno, dislikeno: dislikeno, userno: userno, resno: resno}
+		}).done(function(data){
+			$('#nav_contents').empty();
+			$('#nav_contents').append();
+			
+			
 		});
-        
+    */   
 	});
 	
 	$('.nav #link3').click(function(){

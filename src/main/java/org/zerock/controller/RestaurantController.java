@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.member.MemberVO;
+import org.zerock.domain.restaurant.LikeVO;
 import org.zerock.domain.restaurant.RAddressVO;
 import org.zerock.domain.restaurant.Rcriteria;
 import org.zerock.domain.restaurant.RestaurantVO;
@@ -56,7 +58,9 @@ public class RestaurantController {
 	/* MOUNTAIN.get.jsp에서 ajax 사용 */
 	@PostMapping(value = "/list2")
 	public ResponseEntity<List<RestaurantVO>> list(Rcriteria cri){
+		cri.setAmount(service.getTotal(cri));
 		List<RestaurantVO> list = service.getList(cri);
+		log.info(cri);
 		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
 

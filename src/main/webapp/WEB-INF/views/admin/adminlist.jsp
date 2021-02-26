@@ -88,9 +88,9 @@ tr th {
 <title>산산산</title>
 </head>
 <body>
-<div class="container-sm">
-   <div class="row">
-      <div class="col-12 col-sm-6 offset-sm-3">
+	<div class="container-fluid my-5">
+		<div class="row">
+			<div class="col-12 col-md-8 offset-md-2 table-responsive">
             <h3 style="text-align: center">관리자 정보</h3>
       				<form action="${root }/admin/adminlist" id="searchForm" class="form-inline my-2 my-lg-0 d-flex bd-highlight mb-3">
  					<input type="hidden" name="pageNo" value="1" />

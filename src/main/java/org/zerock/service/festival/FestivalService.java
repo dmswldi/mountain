@@ -24,7 +24,8 @@ public interface FestivalService {
 	
 	public int getTotal(Fcriteria cri);
 	
-	public MountainVO mountainLoc(String mname);
+	public MountainVO mountainLoc(Long mountain_no);
+		
 	
 	
 }

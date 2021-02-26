@@ -30,6 +30,8 @@ var userno = '${authUser.no}';
 var isManager = ('${authUser.manager}' == 1);
 
 var staticPath = '${staticPath}';
+
+var mno =  '${mountain.no }';
 </script>
 <script src="${root }/resources/js/mountain/get.js"></script>
 <%-- <script src="${root }/resources/js/restaurant/LikeDislike.js"></script> --%>
