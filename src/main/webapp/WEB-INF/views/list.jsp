@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="shortcut icon" href="#">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -44,11 +44,12 @@ var root = '${root}';
 
 	      	
       		<c:forEach var="mountain" items="${list}" varStatus="status">
-       			<c:if test="${status.count % 3 == 1 }"> 
+       			<c:if test="${status.count % 4 == 1 }"> 
 					<div class="row">
 	          	</c:if>
 			
-	        	<div class="col-xs-12 col-sm-6 col-lg-4 mt-4"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
+	        	<div class="col-sm-12 col-md-6 col-lg-3 mt-4"> <%-- 모바일xs에서 100% 너비, 데스크탑md에서 33.3%너비  --%>
+<!-- 	        	<div class="col-xs-12 col-sm-6 col-lg-4 mt-4"> -->
 					<div class="card h-100">
 					
 					 <%--
@@ -81,7 +82,7 @@ var root = '${root}';
 	             	</div>
 	        	</div>
 		      
-		        <c:if test="${status.count % 3 == 0 }">
+		        <c:if test="${status.count % 4 == 0 }">
 					</div>
 		        </c:if>
 		    </c:forEach>

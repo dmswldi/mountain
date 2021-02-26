@@ -23,8 +23,8 @@
 </sql>
 
 <select id="getMemberListPaging" resultType="org.zerock.domain.admin.AdminMemberVO">
-<![CDATA[SELECT no, id, email, password, name, nickname, loc FROM
-(SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, no, id, email, password, name, nickname, loc FROM member
+<![CDATA[SELECT no, id, email, password, name, nickname, loc,manager FROM
+(SELECT ROW_NUMBER() OVER (ORDER BY no DESC) rn, no, id, email, password, name, nickname, loc, manager FROM member
 ]]>
 	 <include refid="criteria"></include>
 

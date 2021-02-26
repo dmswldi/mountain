@@ -11,7 +11,7 @@ public class MCriteria {
 	private String keyword;
 	
 	public MCriteria() {
-		this(1, 9);// 3 * 3 정렬
+		this(1, 8);// 3 * 3 정렬
 	}
 
 	public MCriteria(int curPage, int amount) {

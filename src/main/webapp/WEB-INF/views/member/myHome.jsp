@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet"
   href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script
@@ -97,22 +98,16 @@ var root = '${root}';
 						</div>
 						<div class="col">col</div>
 						<div class="col">col</div> -->
+						</div>
 					</div>
-				</div>
-			</form>
-			
-			
-			
-			<!-- <input type="button" url="" /> -->
-			<%--
-					<form id="mysan" method="post" action="${pageContext.request.contextPath }/conquest/get" >
-					<!--  <input type="hidden" name="user_nickname" value="${authUser.nickname }"/>  -->
-					<button id="" type="submit" class="btn btn-outline-success">내 정복 산 관리</button>
 				</form>
-			 --%>
-				
-				
+			</div>
+		</div>
+		
+		
 			<!-- 정복 산 리스트 -->
+		<div class="row">
+      		<div class="col-12 col-sm-6 offset-sm-3">
 
 			<!-- row 방향으로 가로 배열할 때, 중앙 정렬  -->
 			<div id="imgs" class="row-vh d-flex flex-column justify-content-center" ><!-- row방향으로 가운데 정렬 -->
